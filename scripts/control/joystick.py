@@ -57,27 +57,33 @@ class JoystickControl:
         
         # Initialization
         PWM_MAX = 1000
-        STEP_FLIP = 125
+        STEP_FLIP = 250
         # Flippers        
-        print('buttons \n {}'.format(msg.buttons))
-        self.state_flips['leftRear'] +=  STEP_FLIP * (-msg.buttons[0] + msg.buttons[1])
-        self.state_flips['leftFront'] +=  STEP_FLIP * (-msg.buttons[2] + msg.buttons[3])
-        # self.state_flips['rightRear'] +=  sign * STEP_FLIP * msg.buttons[0] 
-        # self.state_flips['rightFront'] +=  sign * STEP_FLIP * msg.buttons[0]  
-        self.msg_flips.leftRearCmd = self.state_flips['leftRear']
-        self.msg_flips.rightRearCmd = self.state_flips['leftRear']
+        # print('buttons \n {}'.format(msg.buttons))
+        # print('axes \n {}'.format(msg.axes))
+        # print(msg.buttons[0], msg.buttons[1], msg.buttons[2], msg.buttons[3])
+        self.state_flips['leftRear'] = STEP_FLIP * (-msg.buttons[1] + msg.buttons[2])  
+        self.state_flips['leftFront'] = STEP_FLIP * (-msg.buttons[0] + msg.buttons[3])
+        
         self.msg_flips.leftFrontCmd = self.state_flips['leftFront']
-        self.msg_flips.rightFrontCmd = self.state_flips['leftFront']
-
+        self.msg_flips.rightFrontCmd = self.state_flips['leftRear']
+        print(
+        'left rear', self.msg_flips.leftRearCmd ,
+        'right rear', self.msg_flips.rightRearCmd,
+        'left front', self.msg_flips.leftFrontCmd,
+        'right front', self.msg_flips.rightFrontCmd
+        )
         # Tracks
-        axe0 = msg.axes[0]
-        axe1 = msg.axes[1]
+        axe0 = msg.axes[2]
+        axe1 = msg.axes[3]
+        
+        self.pwm += msg.axes[1]*0.1 if msg.axes[1]*0.1 < 0.5 else 0.5
 
-        self.pwm += msg.axes[7]*0.1 if msg.axes[7]*0.1 < 0.5 else 0.5
-        print(self.pwm)
         self.msg_tracks.leftCmd = -int(PWM_MAX * self.sign(axe1 - axe0) * min(abs(axe0 - axe1), 1)) * self.pwm
         self.msg_tracks.rightCmd = int(PWM_MAX * self.sign(axe1 + axe0) * min(abs(axe0 + axe1), 1)) * self.pwm
         self.pub_flip_cmd.publish(self.msg_flips)
+        print(self.msg_flips)
+        print('*******')
         self.pub_track_cmd.publish(self.msg_tracks)
 
 
