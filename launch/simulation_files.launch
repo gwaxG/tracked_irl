@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Spawn world -->
+    <arg name="paused" default="False"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="true"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find tracked_irl)/worlds/crawler_robot.world"/>
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="headless" value="$(arg headless)"/>
+  </include>
+  <!-- Robot's URDF -->
+  <param name="robot_description" command="xacro --inorder '$(find tracked_irl)/urdf/tracked_robot_dae.urdf.xacro'"/>
+<!--   Run a python script to send a service call to gazebo_ros to spawn a URDF robot -->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+args="-urdf -model tracked_robot -param robot_description">
+  </node>
+  <!--Load parameters of controllers-->
+  <rosparam file="$(find tracked_irl)/config/config.yaml" command="load"/>
+   <!--Load the controllers -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+	output="screen" ns="/tracked_robot" args="joint_state_controller
+			left_wheel_1_hinge_effort_controller
+			left_wheel_2_hinge_effort_controller
+			left_wheel_3_hinge_effort_controller
+			left_wheel_4_hinge_effort_controller
+			left_wheel_5_hinge_effort_controller
+			left_wheel_6_hinge_effort_controller
+			left_wheel_7_hinge_effort_controller
+			left_wheel_8_hinge_effort_controller
+			left_wheel_9_hinge_effort_controller
+			right_wheel_1_hinge_effort_controller
+			right_wheel_2_hinge_effort_controller
+			right_wheel_3_hinge_effort_controller
+			right_wheel_4_hinge_effort_controller
+			right_wheel_5_hinge_effort_controller
+			right_wheel_6_hinge_effort_controller
+			right_wheel_7_hinge_effort_controller
+			right_wheel_8_hinge_effort_controller
+			right_wheel_9_hinge_effort_controller
+			left_front_bar_wheel_2_hinge_effort_controller
+			left_front_bar_wheel_3_hinge_effort_controller
+			left_front_bar_wheel_4_hinge_effort_controller
+			left_front_bar_wheel_5_hinge_effort_controller
+			right_front_bar_wheel_2_hinge_effort_controller
+			right_front_bar_wheel_3_hinge_effort_controller
+			right_front_bar_wheel_4_hinge_effort_controller
+			right_front_bar_wheel_5_hinge_effort_controller
+			left_front_bar_hinge_position_controller
+			right_front_bar_hinge_position_controller
+            		left_rear_bar_hinge_position_controller
+			right_rear_bar_hinge_position_controller
+			left_rear_bar_wheel_2_hinge_effort_controller
+			left_rear_bar_wheel_3_hinge_effort_controller
+			left_rear_bar_wheel_4_hinge_effort_controller
+			left_rear_bar_wheel_5_hinge_effort_controller
+			right_rear_bar_wheel_2_hinge_effort_controller
+			right_rear_bar_wheel_3_hinge_effort_controller
+			right_rear_bar_wheel_4_hinge_effort_controller
+			right_rear_bar_wheel_5_hinge_effort_controller "/>
+
+
+<!--Odometry retrieved from Gazebo-->
+    <node pkg="tracked_irl" type="odometry_gazebo.py" name="odometry_gazebo" output="screen" />
+
+    <!--   convert joint states to TF transforms for rviz, etc -->
+      <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+	    respawn="false" output="screen">
+        <remap from="/joint_states" to="/tracked_robot/joint_states" />
+      </node>
+
+    <!-- Remapping from Kinect to "LiDAR" and so on; needed for SLAM pkgs -->
+
+      <!-- TF -->
+      <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="0 0 0 0 0 0 1 /world /map 100" />
+
+      <node pkg="tf" type="static_transform_publisher" name="imu_to_base" args="0 0 0 0 0 0 base_link base_imu_link 10"/>
+
+    <!-- Robot pose publisher -->
+      <node pkg="robot_pose_publisher" name="robot_pose_publisher" type="robot_pose_publisher" output="log"/>
+    <!--TF from dummy to odom-->
+    <node pkg="tracked_irl" name="dummy2odom" type="dummy2odom.py" output="screen"/>
+
+</launch>
+

@@ -1,0 +1,170 @@
+tracked_robot:
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 20
+  left_wheel_1_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: left_wheel_1_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  left_wheel_2_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: left_wheel_2_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  left_wheel_3_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: left_wheel_3_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  left_wheel_4_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: left_wheel_4_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  left_wheel_5_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: left_wheel_5_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  left_wheel_6_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: left_wheel_6_hinge
+    pid: {p: 500.0, i: 1.0, d: 50.0}
+  left_wheel_7_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: left_wheel_7_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  left_wheel_8_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: left_wheel_8_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  left_wheel_9_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: left_wheel_9_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+
+
+
+  right_wheel_1_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: right_wheel_1_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  right_wheel_2_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: right_wheel_2_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  right_wheel_3_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: right_wheel_3_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  right_wheel_4_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: right_wheel_4_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  right_wheel_5_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: right_wheel_5_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  right_wheel_6_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: right_wheel_6_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  right_wheel_7_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: right_wheel_7_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  right_wheel_8_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: right_wheel_8_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  right_wheel_9_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: right_wheel_9_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+
+
+  left_front_bar_wheel_2_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: left_front_bar_wheel_2_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  left_front_bar_wheel_3_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: left_front_bar_wheel_3_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  left_front_bar_wheel_4_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: left_front_bar_wheel_4_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  left_front_bar_wheel_5_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: left_front_bar_wheel_5_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+
+
+  left_rear_bar_wheel_2_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: left_rear_bar_wheel_2_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  left_rear_bar_wheel_3_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: left_rear_bar_wheel_3_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  left_rear_bar_wheel_4_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: left_rear_bar_wheel_4_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  left_rear_bar_wheel_5_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: left_rear_bar_wheel_5_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+
+
+  right_front_bar_wheel_2_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: right_front_bar_wheel_2_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  right_front_bar_wheel_3_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: right_front_bar_wheel_3_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  right_front_bar_wheel_4_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: right_front_bar_wheel_4_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  right_front_bar_wheel_5_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: right_front_bar_wheel_5_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+
+
+  right_rear_bar_wheel_2_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: right_rear_bar_wheel_2_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  right_rear_bar_wheel_3_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: right_rear_bar_wheel_3_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  right_rear_bar_wheel_4_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: right_rear_bar_wheel_4_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+  right_rear_bar_wheel_5_hinge_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: right_rear_bar_wheel_5_hinge
+    pid: {p: 20.0, i: 0.1, d: 0.0}
+
+  left_front_bar_hinge_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: left_front_bar_hinge
+    pid: {p: 100.0, i: 1.0, d: 1.0}
+  right_front_bar_hinge_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: right_front_bar_hinge
+    pid: {p: 100.0, i: 1.0, d: 1.0}
+
+  left_rear_bar_hinge_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: left_rear_bar_hinge
+    pid: {p: 100.0, i: 1.0, d: 1.0}
+  right_rear_bar_hinge_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: right_rear_bar_hinge
+    pid: {p: 100.0, i: 1.0, d: 1.0}
+

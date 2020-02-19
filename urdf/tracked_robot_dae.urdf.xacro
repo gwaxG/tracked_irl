@@ -1,0 +1,1437 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="tracked_robot">
+  <xacro:property name="PI" value="3.14" />
+  <xacro:property name="scalling" value="1.0" />
+
+  <!-- Gazebo reference -->
+  <xacro:property name="mu1" value="0.8" />
+  <xacro:property name="mu2" value="0.8" />
+  <xacro:property name="kp" value="1000000.0" />
+  <xacro:property name="kd" value="1.0" />
+  <xacro:property name="slip1" value="0.0" />
+  <xacro:property name="slip2" value="0.0" />
+  <xacro:property name="maxVel" value="0.0" />
+  <xacro:property name="fdir1" value="0 0 1" />
+  <xacro:property name="maxContacts" value="1" />
+  <xacro:property name="minDepth" value="0.0001" />
+  <xacro:property name="dampingFactor" value="0.01" />
+  <xacro:property name="dampingFactorW" value="0.05" />
+
+  <!-- Friction and damping -->
+  <xacro:property name="damp_bar" value="0.2" />
+  <xacro:property name="fric_bar" value="0.0" />
+  <xacro:property name="damping" value="0.0" />
+  <xacro:property name="friction" value="0.0" />
+
+  <!-- Base size -->
+  <xacro:property name="x_size" value="0.32" />
+  <xacro:property name="y_size" value="0.26" />
+  <xacro:property name="z_size" value="0.064" />  
+  <xacro:property name="base_height" value="0.07" />
+  
+  <!-- Bar size -->
+  <xacro:property name="L_bar" value="${x_size/2+0.01}" />
+  <xacro:property name="w_bar" value="0.01" />
+  <xacro:property name="h_bar" value="0.001" />
+
+  <!-- Wheel size -->
+  <xacro:property name="radius" value="0.05" />
+  <xacro:property name="height" value="0.01" />
+
+  <!-- Masses -->
+  <xacro:property name="mass_base" value="40.0" />
+  <xacro:property name="wheel_mass" value="0.2" />
+  <xacro:property name="mass_bar" value="0.05" />
+ 
+  <!-- Inertia -->
+
+  <xacro:property name="ixxw" value="${wheel_mass*(0.25)*radius*radius}" />
+  <xacro:property name="iyyw" value="${wheel_mass*(0.25)*radius*radius}" />
+  <xacro:property name="izzw" value="${wheel_mass*(0.5)*radius*radius}" />
+
+  <xacro:property name="ixxb" value="${mass_base*(1/12)*(y_size*y_size+z_size*z_size)}" />
+  <xacro:property name="iyyb" value="${mass_base*(1/12)*(x_size*x_size+z_size*z_size)}" />
+  <xacro:property name="izzb" value="${mass_base*(1/12)*(y_size*y_size+x_size*x_size)}" />
+  <!-- Inertia 
+  <xacro:property name="ixxbar" value="${mass_bar/12*(w_bar*w_bar+h_bar*h_bar)}" />
+  <xacro:property name="iyybar" value="${mass_bar/12*(L_bar*L_bar+h_bar*h_bar)}" />
+  <xacro:property name="izzbar" value="${mass_bar/12*(L_bar*L_bar+w_bar*w_bar)}" />
+  -->
+
+  <xacro:property name="ixxbar" value="0.1" />
+  <xacro:property name="iyybar" value="0.1" />
+  <xacro:property name="izzbar" value="0.1" />
+
+  <material name="orange">
+    <color rgba="${255/255} ${108/255} ${10/255} 1.0"/>
+  </material>
+
+  <material name="black">
+    <color rgba="0 0 0.8 1"/>
+  </material>
+
+  <material name="blue">
+    <color rgba="0 0 0.8 1"/>
+  </material>
+
+  <link name="dummy">
+    
+  </link>
+
+  <link name="base_link">
+
+    <inertial>
+      <mass value="${mass_base}"/>
+      <origin rpy="0 0 0" xyz="0 0 0.068"/>  
+      <!-- <inertia 
+      
+      ixx="${mass_base/12*(y_size*y_size+z_size*z_size)}" ixy="0.0" ixz="0.0" iyy="${mass_base/12*(x_size*x_size+z_size*z_size)}" iyz="0.0" izz="${mass_base/12*(y_size*y_size+x_size*x_size)}"/> -->
+      <inertia ixx="${ixxb}" ixy="0" ixz="0" iyy="${iyyb}" iyz="0" izz="${izzb}"/>
+    </inertial>
+    <collision name="tracked_robot__collision">
+      <origin rpy="0 0 0" xyz="0   0   ${base_height}"/>
+      <geometry>
+        <box size="${x_size} ${y_size} ${z_size}"/>
+      </geometry>
+    </collision>
+    <collision name="tracked_robot__collision_kinect">
+      <origin rpy="0 0 0" xyz="0.05  0    0.102"/>
+      <geometry>
+        <box size="0.057 0.06 ${base_height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual">
+      <origin rpy="0 0 0" xyz="0   0   ${base_height}"/>
+      <geometry>
+        <box size="${x_size} ${y_size} ${z_size}"/>
+      </geometry>
+    </visual>
+
+     <visual name="tracked_robot__visual_kinect">
+      <origin rpy="0 0 0" xyz="0.05  0    0.102"/>
+      <geometry>
+        <box size="0.057 0.06 ${base_height}"/>
+      </geometry>
+    </visual> <!---->
+  </link>
+
+  <joint name="dummy_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 -0.068"/>
+     <parent link="dummy"/>
+
+     <child link="base_link"/>
+   </joint>
+
+<!-- Left side wheels -->
+  <link name="left_wheel_1">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="tracked_robot__collision_1">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_1">
+
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+ 
+  </link>
+
+  <link name="left_wheel_2">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="tracked_robot__collision_2">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_2">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+ 
+  </link>
+
+
+  <link name="left_wheel_3">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="tracked_robot__collision_3">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_3">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+ 
+  </link>
+
+  <link name="left_wheel_4">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="tracked_robot__collision_4">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_4">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+ 
+  </link>
+  <link name="left_wheel_5">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="tracked_robot__collision_5">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_5">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+ 
+  </link>
+  <link name="left_wheel_6">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="tracked_robot__collision_6">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_6">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+ 
+  </link>
+
+  <link name="left_wheel_7">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="tracked_robot__collision_7">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_7">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+ 
+  </link>
+
+  <link name="left_wheel_8">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="tracked_robot__collision_8">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_8">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+ 
+  </link>
+
+  <link name="left_wheel_9">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="tracked_robot__collision_9">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_9">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+ 
+  </link>
+<!-- Right side wheels -->
+
+  <link name="right_wheel_1">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="tracked_robot__collision_1">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_1">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+ 
+  </link>
+
+  <link name="right_wheel_2">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="tracked_robot__collision_2">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_2">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+ 
+  </link>
+
+
+  <link name="right_wheel_3">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="tracked_robot__collision_3">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_3">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+ 
+  </link>
+
+  <link name="right_wheel_4">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="tracked_robot__collision_4">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_4">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+ 
+  </link>
+  <link name="right_wheel_5">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="tracked_robot__collision_5">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_5">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+ 
+  </link>
+  <link name="right_wheel_6">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="tracked_robot__collision_6">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_6">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+ 
+  </link>
+  <link name="right_wheel_7">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="tracked_robot__collision_7">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_7">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+ 
+  </link>
+  <link name="right_wheel_8">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="tracked_robot__collision_8">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_8">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+ 
+  </link>
+  <link name="right_wheel_9">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="tracked_robot__collision_9">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_9">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/main_wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+ 
+  </link>
+  <!-- Joints -->
+  <!-- Left side joints -->
+  <joint name="left_wheel_1_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_wheel_1"/>
+    <origin rpy="0     1.5707 1.5707" xyz="0.15 0.135 ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="${damping}" friction="${friction}"/>
+    <limit effort="100.0" velocity="5.0"/>
+  </joint> 
+  <joint name="left_wheel_2_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_wheel_2"/>
+    <origin rpy="0     1.5707 1.5707" xyz="0.075 0.135 ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="${damping}" friction="${friction}"/>
+    <limit effort="100.0" velocity="5.0"/>
+  </joint> 
+  <joint name="left_wheel_3_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_wheel_3"/>
+    <origin rpy="0     1.5707 1.5707" xyz="0.0 0.135 ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="${damping}" friction="${friction}"/>
+    <limit effort="100.0" velocity="5.0"/>
+  </joint> 
+  <joint name="left_wheel_4_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_wheel_4"/>
+    <origin rpy="0     1.5707 1.5707" xyz="-0.075 0.135 ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100.0" velocity="5.0"/>
+    <dynamics damping="${damping}" friction="${friction}"/>
+  </joint> 
+  <joint name="left_wheel_5_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_wheel_5"/>
+    <origin rpy="0     1.5707 1.5707" xyz="-0.15 0.135 ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100.0" velocity="5.0"/>
+    <dynamics damping="${damping}" friction="${friction}"/>
+  </joint> 
+  <joint name="left_wheel_6_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_wheel_6"/>
+    <origin rpy="0     1.5707 1.5707" xyz="-0.1125 0.135 ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100.0" velocity="5.0"/>
+    <dynamics damping="${damping}" friction="${friction}"/>
+  </joint> 
+  <joint name="left_wheel_7_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_wheel_7"/>
+    <origin rpy="0     1.5707 1.5707" xyz="0.1125 0.135 ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100.0" velocity="5.0"/>
+    <dynamics damping="${damping}" friction="${friction}"/>
+  </joint> 
+  <joint name="left_wheel_8_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_wheel_8"/>
+    <origin rpy="0     1.5707 1.5707" xyz="0.0375 0.135 ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100.0" velocity="5.0"/>
+    <dynamics damping="${damping}" friction="${friction}"/>
+  </joint> 
+  <joint name="left_wheel_9_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_wheel_9"/>
+    <origin rpy="0     1.5707 1.5707" xyz="-0.0375 0.135 ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100.0" velocity="5.0"/>
+    <dynamics damping="${damping}" friction="${friction}"/>
+  </joint> 
+  <!-- Right side joints -->
+  <joint name="right_wheel_1_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_wheel_1"/>
+    <origin rpy="${PI}     1.5707 -1.5707" xyz="0.15 -0.135 ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100.0" velocity="5.0"/>
+    <dynamics damping="${damping}" friction="${friction}"/>
+  </joint> 
+  <joint name="right_wheel_2_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_wheel_2"/>
+    <origin rpy="${PI}     1.5707 -1.5707" xyz="0.075 -0.135 ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100.0" velocity="5.0"/>
+    <dynamics damping="${damping}" friction="${friction}"/>
+  </joint> 
+  <joint name="right_wheel_3_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_wheel_3"/>
+    <origin rpy="${PI}     1.5707 -1.5707" xyz="0.0 -0.135 ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100.0" velocity="5.0"/>
+    <dynamics damping="${damping}" friction="${friction}"/>
+  </joint> 
+  <joint name="right_wheel_4_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_wheel_4"/>
+    <origin rpy="${PI}     1.5707 -1.5707" xyz="-0.075 -0.135 ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100.0" velocity="5.0"/>
+    <dynamics damping="${damping}" friction="${friction}"/>
+  </joint> 
+  <joint name="right_wheel_5_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_wheel_5"/>
+    <origin rpy="${PI}     1.5707 -1.5707" xyz="-0.15 -0.135 ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100.0" velocity="5.0"/>
+    <dynamics damping="${damping}" friction="${friction}"/>
+  </joint> 
+  <joint name="right_wheel_6_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_wheel_6"/>
+    <origin rpy="${PI}     1.5707 -1.5707" xyz="-0.1125 -0.135 ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100.0" velocity="5.0"/>
+    <dynamics damping="${damping}" friction="${friction}"/>
+  </joint> 
+  <joint name="right_wheel_7_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_wheel_7"/>
+    <origin rpy="${PI}     1.5707 -1.5707" xyz="0.1125 -0.135 ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100.0" velocity="5.0"/>
+    <dynamics damping="${damping}" friction="${friction}"/>
+  </joint> 
+  <joint name="right_wheel_8_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_wheel_8"/>
+    <origin rpy="${PI}     1.5707 -1.5707" xyz="0.0375 -0.135 ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100.0" velocity="5.0"/>
+    <dynamics damping="${damping}" friction="${friction}"/>
+  </joint> 
+  <joint name="right_wheel_9_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_wheel_9"/>
+    <origin rpy="${PI}     1.5707 -1.5707" xyz="-0.0375 -0.135 ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100.0" velocity="5.0"/>
+    <dynamics damping="${damping}" friction="${friction}"/>
+  </joint> 
+
+
+<!-- KINECT -->
+      <joint name="camera_joint" type="fixed">
+        <origin xyz="0.08     0 0.15" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="camera_link"/>
+      </joint>
+      
+      <link name="camera_link">
+        <inertial_sphere mass="0.01" diameter="0.07" />
+        <visual>
+          <origin xyz="0 0 0.0" rpy="0 0 0" />
+          <geometry>
+            <mesh filename="package://hector_sensors_description/meshes/kinect_camera/kinect_camera_simple.dae"/>
+          </geometry>
+        </visual>
+        <collision>
+
+          <geometry>
+            <mesh filename="package://hector_sensors_description/meshes/kinect_camera/kinect_camera_simple.stl"/>
+          </geometry>
+        </collision>
+      </link>
+
+      <joint name="camera_depth_joint" type="fixed">
+        <origin xyz="0.0 -0.02 0.0" rpy="0 0 0" />
+        <parent link="camera_link" />
+        <child link="camera_depth_frame"/>
+      </joint>
+
+      <link name="camera_depth_frame"/>
+
+      <joint name="camera_depth_optical_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="${-PI/2} 0.0 ${-PI/2}" />
+        <parent link="camera_depth_frame" />
+        <child link="camera_depth_optical_frame"/>
+      </joint>
+
+      <link name="camera_depth_optical_frame"/>
+
+      <joint name="camera_rgb_joint" type="fixed">
+        <origin xyz="0.0 -0.0125 0.0" rpy="0 0 0" />
+        <parent link="camera_link" />
+        <child link="camera_rgb_frame"/>
+      </joint>
+
+      <link name="camera_rgb_frame"/>
+
+      <joint name="camera_rgb_optical_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="${-PI/2} 0.0 ${-PI/2}" />
+        <parent link="camera_rgb_frame" />
+        <child link="camera_rgb_optical_frame"/>
+      </joint>
+
+      <link name="camera_rgb_optical_frame"/>
+
+
+      
+      <gazebo reference="camera_depth_frame">
+        <sensor type="depth" name="camera">
+          <update_rate>20</update_rate>
+          <camera>
+            <horizontal_fov>${60 * PI/180.0}</horizontal_fov>
+            <image>
+              <format>R8G8B8</format>
+              <width>640</width>
+              <height>480</height>
+            </image>
+            <clip>
+              <near>0.05</near>
+              <far>3</far>
+            </clip>
+          </camera>
+
+
+          <plugin name="camera_camera_controller" filename="libgazebo_ros_openni_kinect.so">
+            <alwaysOn>true</alwaysOn>
+            <updateRate>20</updateRate>
+            <imageTopicName>camera/rgb/image_raw</imageTopicName>
+            <cameraInfoTopicName>camera/rgb/camera_info</cameraInfoTopicName>
+            <depthImageTopicName>camera/depth/image_raw</depthImageTopicName>
+            <depthImageCameraInfoTopicName>camera/depth/camera_info</depthImageCameraInfoTopicName>
+            <frameName>camera_depth_optical_frame</frameName>
+            <distortion_k1>0.0</distortion_k1>
+            <distortion_k2>0.0</distortion_k2>
+            <distortion_k3>0.0</distortion_k3>
+            <distortion_t1>0.0</distortion_t1>
+            <distortion_t2>0.0</distortion_t2>
+          </plugin>
+        </sensor>
+      </gazebo>
+<!-- END Kinect -->
+
+  <gazebo reference="dummy">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>/sensor_msgs/imu</topicName>
+        <bodyName>imu_link</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>imu_link</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+<!-- IMU link
+    <joint name="imu_sensor_joint" type="fixed">
+        <axis xyz="0 0 1" />
+        <origin xyz="0 0 0.1" rpy="0 0 0"/>
+        <parent link="dummy"/>
+        <child link="imu_sensor_link"/>
+    </joint>
+
+    <link name="imu_sensor_link">
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.02 0.02 0.02"/>
+            </geometry>
+        </collision>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.02 0.02 0.02"/>
+            </geometry>
+        </visual>
+        <inertial>
+            <mass value="0.001" />
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="0.00000015" ixy="0" ixz="0" iyy="0.00000015" iyz="0" izz="0.00000015" />
+        </inertial>
+    </link>
+ <gazebo reference="imu_link">
+    <plugin name="imu_plugin" filename="libgazebo_ros_imu_sensor.so">
+      <alwaysOn>true</alwaysOn>
+      <bodyName>base_link</bodyName>
+      <topicName>imu</topicName>
+      <serviceName>imu_service</serviceName>
+      <gaussianNoise>0.0</gaussianNoise>
+      <updateRate>20.0</updateRate>
+    </plugin>
+  </gazebo> -->
+
+  <!-- ROS Control plugin for Gazebo -->
+  <gazebo>
+    <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
+      <legacyModeNS>True</legacyModeNS>
+      <robotNamespace>/tracked_robot</robotNamespace>
+    </plugin>
+  </gazebo>
+ 
+ <!-- transmission -->
+<!-- Left side transmissions -->
+  <transmission name="left_wheel_1_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="left_wheel_motor_1">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="left_wheel_1_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+  <transmission name="left_wheel_2_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="left_wheel_motor_2">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="left_wheel_2_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+  <transmission name="left_wheel_3_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="left_wheel_motor_3">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="left_wheel_3_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+  <transmission name="left_wheel_4_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="left_wheel_motor_4">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="left_wheel_4_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+  <transmission name="left_wheel_5_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="left_wheel_motor_5">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="left_wheel_5_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+  <transmission name="left_wheel_6_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="left_wheel_motor_6">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="left_wheel_6_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+  <transmission name="left_wheel_7_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="left_wheel_motor_7">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="left_wheel_7_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+  <transmission name="left_wheel_8_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="left_wheel_motor_8">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="left_wheel_8_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+  <transmission name="left_wheel_9_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="left_wheel_motor_9">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="left_wheel_9_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+<!-- Right side transmissions -->
+  <transmission name="right_wheel_1_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="right_wheel_motor_1">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="right_wheel_1_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+  <transmission name="right_wheel_2_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="right_wheel_motor_2">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="right_wheel_2_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+  <transmission name="right_wheel_3_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="right_wheel_motor_3">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="right_wheel_3_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+  <transmission name="right_wheel_4_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="right_wheel_motor_4">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="right_wheel_4_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+  <transmission name="right_wheel_5_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="right_wheel_motor_5">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="right_wheel_5_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+  <transmission name="right_wheel_6_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="right_wheel_motor_6">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="right_wheel_6_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+  <transmission name="right_wheel_7_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="right_wheel_motor_7">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="right_wheel_7_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+  <transmission name="right_wheel_8_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="right_wheel_motor_8">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="right_wheel_8_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+  <transmission name="right_wheel_9_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="right_wheel_motor_9">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="right_wheel_9_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+  <!-- Flipper models -->
+
+
+
+  <!-- Left front side flipper revolute bar  -->
+  <link name="left_front_bar">
+    <inertial>
+
+      <mass value="${mass_bar}"/>
+      <inertia ixx="${ixxbar}" ixy="0" ixz="0" iyy="${iyybar}" iyz="0" izz="${izzbar}"/>
+    </inertial> 
+    <!-- 
+    <visual name="left_front_bar_visual">
+      <origin rpy="0 0 0" xyz="${L_bar/2 - 0.01} 0 0"/>
+      <geometry>
+        <box size="${L_bar} ${w_bar} ${h_bar}"/>
+      </geometry>
+    </visual>
+    -->
+    <collision name="left_front_bar_collision">
+      <origin rpy="0 0 0" xyz="${L_bar/2 - 0.01} 0 0"/>
+      <geometry>
+        <box size="${L_bar} ${w_bar} ${h_bar}"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Joint -->
+  <joint name="left_front_bar_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_front_bar"/>
+    <origin rpy="-1.570 0 0" xyz="${x_size/2-0.01} ${y_size/2+height+h_bar/2} ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="${damp_bar}" friction="${fric_bar}"/>
+    <limit effort="1000.0" velocity="1.4"/>
+  </joint>
+
+
+  <!-- Transmission -->
+  <transmission name="left_front_bar">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="left_front_bar_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="left_front_bar_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+  <!-- Left rear side flipper revolute bar  -->
+  <link name="left_rear_bar">
+    <inertial>
+
+      <mass value="${mass_bar}"/>
+      <inertia ixx="${ixxbar}" ixy="0" ixz="0" iyy="${iyybar}" iyz="0" izz="${izzbar}"/>
+    </inertial> 
+    <!-- 
+    <visual name="left_rear_bar_visual">
+      <origin rpy="0 0 0" xyz="${L_bar/2 - 0.01} 0 0"/>
+      <geometry>
+        <box size="${L_bar} ${w_bar} ${h_bar}"/>
+      </geometry>
+    </visual>
+    -->
+    <collision name="left_rear_bar_collision">
+      <origin rpy="0 0 0" xyz="${L_bar/2 - 0.01} 0 0"/>
+      <geometry>
+        <box size="${L_bar} ${w_bar} ${h_bar}"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Joint -->
+  <joint name="left_rear_bar_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_rear_bar"/>
+    <origin rpy="1.570 0 3.14" xyz="-${x_size/2-0.01} ${y_size/2+height+h_bar/2} ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="${damp_bar}" friction="${fric_bar}"/>
+    <limit effort="100000.0" velocity="1.4"/>
+  </joint>
+
+
+  <!-- Transmission -->
+  <transmission name="left_rear_bar">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="left_rear_bar_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="left_rear_bar_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+  <!-- Right frontside flipper revolute bar  -->
+  <link name="right_front_bar">
+    <inertial>
+
+      <mass value="${mass_bar}"/>
+      <inertia ixx="${ixxbar}" ixy="0" ixz="0" iyy="${iyybar}" iyz="0" izz="${izzbar}"/>
+    </inertial>
+    <!-- 
+    <visual name="right_front_bar_visual">
+      <origin rpy="0 0 0" xyz="${L_bar/2 - 0.01} 0 0"/>
+      <geometry>
+        <box size="${L_bar} ${w_bar} ${h_bar}"/>
+      </geometry>
+    </visual>
+    -->
+    <collision name="right_front_bar_collision">
+      <origin rpy="0 0 0" xyz="${L_bar/2 - 0.01} 0 0"/>
+      <geometry>
+        <box size="${L_bar} ${w_bar} ${h_bar}"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint -->
+  <joint name="right_front_bar_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_front_bar"/>
+    <origin rpy="1.570 0 0" xyz="${x_size/2-0.01} -${y_size/2+height+h_bar/2} ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="${damp_bar}" friction="${fric_bar}"/>
+    <limit effort="100000.0" velocity="1.4"/>
+  </joint>
+
+  <!-- Transmission -->
+  <transmission name="right_front_bar">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="right_front_bar_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+          </actuator>
+    <joint name="right_front_bar_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+  <!-- Right rear  side flipper revolute bar  -->
+  <link name="right_rear_bar">
+    <inertial>
+
+      <mass value="${mass_bar}"/>
+      <inertia ixx="${ixxbar}" ixy="0" ixz="0" iyy="${iyybar}" iyz="0" izz="${izzbar}"/>
+    </inertial>
+    <!--  
+    <visual name="right_rear_bar_visual">
+      <origin rpy="0 0 0" xyz="${L_bar/2 - 0.01} 0 0"/>
+      <geometry>
+        <box size="${L_bar} ${w_bar} ${h_bar}"/>
+      </geometry>
+    </visual>
+    -->
+    <collision name="right_rear_bar_collision">
+      <origin rpy="0 0 0" xyz="${L_bar/2 - 0.01} 0 0"/>
+      <geometry>
+        <box size="${L_bar} ${w_bar} ${h_bar}"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint -->
+  <joint name="right_rear_bar_hinge" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_rear_bar"/>
+    <origin rpy="-1.570 0 3.14" xyz="-${x_size/2-0.01} -${y_size/2+height+h_bar/2} ${base_height}"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="${damp_bar}" friction="${fric_bar}"/>
+    <limit effort="100000.0" velocity="1.4"/>
+  </joint>
+
+  <!-- Transmission -->
+  <transmission name="right_reart_bar">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="right_rear_bar_motor">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+          </actuator>
+    <joint name="right_rear_bar_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+  <!-- Left and right side flipper wheels --> 
+  <xacro:include filename="bar_wheels_dae.urdf.xacro" />
+  <!-- Gazebo references for physics
+  mu1 coef. of friction of rubber on dry asphalt 0.9 https://www.engineeringtoolbox.com/friction-coefficients-d_778.html
+  -->
+
+  <gazebo reference="base_link">
+        <mu1>${mu1}</mu1>
+        <mu2>${mu2}</mu2>
+  </gazebo>
+
+  <gazebo reference="left_wheel_1">
+      <mu1>${mu1}</mu1>
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+  </gazebo>
+
+  <gazebo reference="left_wheel_2">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+  </gazebo>
+  <gazebo reference="left_wheel_3">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+  </gazebo>
+  <gazebo reference="left_wheel_4">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+  </gazebo>
+  <gazebo reference="left_wheel_5">    
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+  </gazebo>
+  <gazebo reference="left_wheel_6">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+  </gazebo>
+  <gazebo reference="left_wheel_7">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+  </gazebo>
+  <gazebo reference="left_wheel_8">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+  </gazebo>
+  <gazebo reference="left_wheel_9">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+  </gazebo>
+  <gazebo reference="right_wheel_1">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+  </gazebo>
+  <gazebo reference="right_wheel_2">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+  </gazebo>
+  <gazebo reference="right_wheel_3">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+  </gazebo>
+  <gazebo reference="right_wheel_4">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+  </gazebo>
+  <gazebo reference="right_wheel_5">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+  </gazebo>
+  <gazebo reference="right_wheel_6">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+  </gazebo>
+  <gazebo reference="right_wheel_7">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+  </gazebo>
+  <gazebo reference="right_wheel_8">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+  </gazebo>
+  <gazebo reference="right_wheel_9">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+  </gazebo>
+  <gazebo reference="left_front_bar">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+      <dampingFactor>${dampingFactor}</dampingFactor>
+  </gazebo>
+  <gazebo reference="right_rear_bar">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+      <dampingFactor>${dampingFactor}</dampingFactor>
+  </gazebo>
+  <gazebo reference="left_rear_bar">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+      <dampingFactor>${dampingFactor}</dampingFactor>
+  </gazebo>
+  <gazebo reference="right_front_bar">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+       <dampingFactor>${dampingFactorW}</dampingFactor>
+      <dampingFactor>${dampingFactor}</dampingFactor>
+  </gazebo>
+<plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
+  <alwaysOn>true</alwaysOn>
+  <updateRate>50.0</updateRate>
+  <bodyName>base_link</bodyName>
+  <topicName>odom</topicName>
+  <gaussianNoise>0.01</gaussianNoise>
+  <frameName>world</frameName>
+  <xyzOffsets>0 0 0</xyzOffsets>
+  <rpyOffsets>0 0 0</rpyOffsets>
+</plugin>
+
+</robot>

@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<sdf version="1.5">
+    <model name="stairs">
+      <static>true</static>
+      <pose> 1.0 0 0.05 0 0 0</pose>
+      <link name="step1">
+  
+        <collision name="collision">
+          <geometry>
+            <box> <size>0.8 1.2 0.1</size> </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box> <size>0.8 1.2 0.1</size> </box>
+          </geometry>
+        </visual>
+      </link>
+
+      <link name="step_edge">
+        <pose> -0.4 0.0 0.0 1.57 0 1.57</pose>
+        <collision name="collision">
+          <geometry>
+            <box> <size>1.2 0.1 0.001</size> </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box> <size>1.2 0.1 0.001</size> </box>
+          </geometry>
+        </visual>
+      </link>
+
+
+      <link name="step2">
+        <pose> 0.4 0 0.1 0 0 0</pose>
+        <collision name="collision">
+          <geometry>
+            <box> <size>0.8 1.2 0.1</size> </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box> <size>0.8 1.2 0.1</size> </box>
+          </geometry>
+        </visual>
+      </link>
+
+      <link name="step3">
+        <pose> 0.8 0 0.2 0 0 0</pose>
+        <collision name="collision">
+          <geometry>
+            <box> <size>0.8 1.2 0.1</size> </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box> <size>0.8 1.2 0.1</size> </box>
+          </geometry>
+        </visual>
+      </link>
+
+      <link name="step4">
+        <pose> 1.2 0 0.3 0 0 0</pose>
+        <collision name="collision">
+          <geometry>
+            <box> <size>0.8 1.2 0.1</size> </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box> <size>0.8 1.2 0.1</size> </box>
+          </geometry>
+        </visual>
+      </link>
+
+      <link name="step5">
+        <pose> 1.6 0 0.4 0 0 0</pose>
+        <collision name="collision">
+          <geometry>
+            <box> <size>0.8 1.2 0.1</size> </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box> <size>0.8 1.2 0.1</size> </box>
+          </geometry>
+        </visual>
+      </link>
+
+    </model>
+</sdf>
+

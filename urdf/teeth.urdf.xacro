@@ -1,0 +1,419 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="teeth">
+<!-- tooth 1-->
+    <collision name="tracked_robot__collision_tooth_1">
+      <origin rpy="0 0 ${-0*2*pi/32}" xyz="${rad*sin(0/32*2*pi)} ${rad*cos(0/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_1">
+      <origin rpy="0 0 ${-0*2*pi/32}" xyz="${rad*sin(0/32*2*pi)} ${rad*cos(0/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 2-->
+    <collision name="tracked_robot__collision_tooth_2">
+      <origin rpy="0 0 ${-1*2*pi/32}" xyz="${rad*sin(1/32*2*pi)} ${rad*cos(1/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_2">
+      <origin rpy="0 0 ${-1*2*pi/32}" xyz="${rad*sin(1/32*2*pi)} ${rad*cos(1/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 3-->
+    <collision name="tracked_robot__collision_tooth_3">
+      <origin rpy="0 0 ${-2*2*pi/32}" xyz="${rad*sin(2/32*2*pi)} ${rad*cos(2/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_3">
+      <origin rpy="0 0 ${-2*2*pi/32}" xyz="${rad*sin(2/32*2*pi)} ${rad*cos(2/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 4-->
+    <collision name="tracked_robot__collision_tooth_4">
+      <origin rpy="0 0 ${-3*2*pi/32}" xyz="${rad*sin(3/32*2*pi)} ${rad*cos(3/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_4">
+      <origin rpy="0 0 ${-3*2*pi/32}" xyz="${rad*sin(3/32*2*pi)} ${rad*cos(3/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 5-->
+    <collision name="tracked_robot__collision_tooth_5">
+      <origin rpy="0 0 ${-4*2*pi/32}" xyz="${rad*sin(4/32*2*pi)} ${rad*cos(4/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_5">
+      <origin rpy="0 0 ${-4*2*pi/32}" xyz="${rad*sin(4/32*2*pi)} ${rad*cos(4/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 6-->
+    <collision name="tracked_robot__collision_tooth_6">
+      <origin rpy="0 0 ${-5*2*pi/32}" xyz="${rad*sin(5/32*2*pi)} ${rad*cos(5/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_6">
+      <origin rpy="0 0 ${-5*2*pi/32}" xyz="${rad*sin(5/32*2*pi)} ${rad*cos(5/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 7-->
+    <collision name="tracked_robot__collision_tooth_7">
+      <origin rpy="0 0 ${-6*2*pi/32}" xyz="${rad*sin(6/32*2*pi)} ${rad*cos(6/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_7">
+      <origin rpy="0 0 ${-6*2*pi/32}" xyz="${rad*sin(6/32*2*pi)} ${rad*cos(6/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 8-->
+    <collision name="tracked_robot__collision_tooth_8">
+      <origin rpy="0 0 ${-7*2*pi/32}" xyz="${rad*sin(7/32*2*pi)} ${rad*cos(7/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_8">
+      <origin rpy="0 0 ${-7*2*pi/32}" xyz="${rad*sin(7/32*2*pi)} ${rad*cos(7/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 9-->
+    <collision name="tracked_robot__collision_tooth_9">
+      <origin rpy="0 0 ${-8*2*pi/32}" xyz="${rad*sin(8/32*2*pi)} ${rad*cos(8/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_9">
+      <origin rpy="0 0 ${-8*2*pi/32}" xyz="${rad*sin(8/32*2*pi)} ${rad*cos(8/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 10-->
+    <collision name="tracked_robot__collision_tooth_10">
+      <origin rpy="0 0 ${-9*2*pi/32}" xyz="${rad*sin(9/32*2*pi)} ${rad*cos(9/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_10">
+      <origin rpy="0 0 ${-9*2*pi/32}" xyz="${rad*sin(9/32*2*pi)} ${rad*cos(9/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 11-->
+    <collision name="tracked_robot__collision_tooth_11">
+      <origin rpy="0 0 ${-10*2*pi/32}" xyz="${rad*sin(10/32*2*pi)} ${rad*cos(10/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_11">
+      <origin rpy="0 0 ${-10*2*pi/32}" xyz="${rad*sin(10/32*2*pi)} ${rad*cos(10/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 12-->
+    <collision name="tracked_robot__collision_tooth_12">
+      <origin rpy="0 0 ${-11*2*pi/32}" xyz="${rad*sin(11/32*2*pi)} ${rad*cos(11/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_12">
+      <origin rpy="0 0 ${-11*2*pi/32}" xyz="${rad*sin(11/32*2*pi)} ${rad*cos(11/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 13-->
+    <collision name="tracked_robot__collision_tooth_13">
+      <origin rpy="0 0 ${-12*2*pi/32}" xyz="${rad*sin(12/32*2*pi)} ${rad*cos(12/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_13">
+      <origin rpy="0 0 ${-12*2*pi/32}" xyz="${rad*sin(12/32*2*pi)} ${rad*cos(12/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 14-->
+    <collision name="tracked_robot__collision_tooth_14">
+      <origin rpy="0 0 ${-13*2*pi/32}" xyz="${rad*sin(13/32*2*pi)} ${rad*cos(13/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_14">
+      <origin rpy="0 0 ${-13*2*pi/32}" xyz="${rad*sin(13/32*2*pi)} ${rad*cos(13/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 15-->
+    <collision name="tracked_robot__collision_tooth_15">
+      <origin rpy="0 0 ${-14*2*pi/32}" xyz="${rad*sin(14/32*2*pi)} ${rad*cos(14/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_15">
+      <origin rpy="0 0 ${-14*2*pi/32}" xyz="${rad*sin(14/32*2*pi)} ${rad*cos(14/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 16-->
+    <collision name="tracked_robot__collision_tooth_16">
+      <origin rpy="0 0 ${-15*2*pi/32}" xyz="${rad*sin(15/32*2*pi)} ${rad*cos(15/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_16">
+      <origin rpy="0 0 ${-15*2*pi/32}" xyz="${rad*sin(15/32*2*pi)} ${rad*cos(15/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 17-->
+    <collision name="tracked_robot__collision_tooth_17">
+      <origin rpy="0 0 ${-16*2*pi/32}" xyz="${rad*sin(16/32*2*pi)} ${rad*cos(16/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_17">
+      <origin rpy="0 0 ${-16*2*pi/32}" xyz="${rad*sin(16/32*2*pi)} ${rad*cos(16/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 18-->
+    <collision name="tracked_robot__collision_tooth_18">
+      <origin rpy="0 0 ${-17*2*pi/32}" xyz="${rad*sin(17/32*2*pi)} ${rad*cos(17/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_18">
+      <origin rpy="0 0 ${-17*2*pi/32}" xyz="${rad*sin(17/32*2*pi)} ${rad*cos(17/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 19-->
+    <collision name="tracked_robot__collision_tooth_19">
+      <origin rpy="0 0 ${-18*2*pi/32}" xyz="${rad*sin(18/32*2*pi)} ${rad*cos(18/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_19">
+      <origin rpy="0 0 ${-18*2*pi/32}" xyz="${rad*sin(18/32*2*pi)} ${rad*cos(18/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 20-->
+    <collision name="tracked_robot__collision_tooth_20">
+      <origin rpy="0 0 ${-19*2*pi/32}" xyz="${rad*sin(19/32*2*pi)} ${rad*cos(19/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_20">
+      <origin rpy="0 0 ${-19*2*pi/32}" xyz="${rad*sin(19/32*2*pi)} ${rad*cos(19/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 21-->
+    <collision name="tracked_robot__collision_tooth_21">
+      <origin rpy="0 0 ${-20*2*pi/32}" xyz="${rad*sin(20/32*2*pi)} ${rad*cos(20/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_21">
+      <origin rpy="0 0 ${-20*2*pi/32}" xyz="${rad*sin(20/32*2*pi)} ${rad*cos(20/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 22-->
+    <collision name="tracked_robot__collision_tooth_22">
+      <origin rpy="0 0 ${-21*2*pi/32}" xyz="${rad*sin(21/32*2*pi)} ${rad*cos(21/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_22">
+      <origin rpy="0 0 ${-21*2*pi/32}" xyz="${rad*sin(21/32*2*pi)} ${rad*cos(21/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 23-->
+    <collision name="tracked_robot__collision_tooth_23">
+      <origin rpy="0 0 ${-22*2*pi/32}" xyz="${rad*sin(22/32*2*pi)} ${rad*cos(22/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_23">
+      <origin rpy="0 0 ${-22*2*pi/32}" xyz="${rad*sin(22/32*2*pi)} ${rad*cos(22/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 24-->
+    <collision name="tracked_robot__collision_tooth_24">
+      <origin rpy="0 0 ${-23*2*pi/32}" xyz="${rad*sin(23/32*2*pi)} ${rad*cos(23/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_24">
+      <origin rpy="0 0 ${-23*2*pi/32}" xyz="${rad*sin(23/32*2*pi)} ${rad*cos(23/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 25-->
+    <collision name="tracked_robot__collision_tooth_25">
+      <origin rpy="0 0 ${-24*2*pi/32}" xyz="${rad*sin(24/32*2*pi)} ${rad*cos(24/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_25">
+      <origin rpy="0 0 ${-24*2*pi/32}" xyz="${rad*sin(24/32*2*pi)} ${rad*cos(24/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 26-->
+    <collision name="tracked_robot__collision_tooth_26">
+      <origin rpy="0 0 ${-25*2*pi/32}" xyz="${rad*sin(25/32*2*pi)} ${rad*cos(25/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_26">
+      <origin rpy="0 0 ${-25*2*pi/32}" xyz="${rad*sin(25/32*2*pi)} ${rad*cos(25/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 27-->
+    <collision name="tracked_robot__collision_tooth_27">
+      <origin rpy="0 0 ${-26*2*pi/32}" xyz="${rad*sin(26/32*2*pi)} ${rad*cos(26/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_27">
+      <origin rpy="0 0 ${-26*2*pi/32}" xyz="${rad*sin(26/32*2*pi)} ${rad*cos(26/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 28-->
+    <collision name="tracked_robot__collision_tooth_28">
+      <origin rpy="0 0 ${-27*2*pi/32}" xyz="${rad*sin(27/32*2*pi)} ${rad*cos(27/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_28">
+      <origin rpy="0 0 ${-27*2*pi/32}" xyz="${rad*sin(27/32*2*pi)} ${rad*cos(27/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 29-->
+    <collision name="tracked_robot__collision_tooth_29">
+      <origin rpy="0 0 ${-28*2*pi/32}" xyz="${rad*sin(28/32*2*pi)} ${rad*cos(28/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_29">
+      <origin rpy="0 0 ${-28*2*pi/32}" xyz="${rad*sin(28/32*2*pi)} ${rad*cos(28/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 30-->
+    <collision name="tracked_robot__collision_tooth_30">
+      <origin rpy="0 0 ${-29*2*pi/32}" xyz="${rad*sin(29/32*2*pi)} ${rad*cos(29/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_30">
+      <origin rpy="0 0 ${-29*2*pi/32}" xyz="${rad*sin(29/32*2*pi)} ${rad*cos(29/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 31-->
+    <collision name="tracked_robot__collision_tooth_31">
+      <origin rpy="0 0 ${-30*2*pi/32}" xyz="${rad*sin(30/32*2*pi)} ${rad*cos(30/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_31">
+      <origin rpy="0 0 ${-30*2*pi/32}" xyz="${rad*sin(30/32*2*pi)} ${rad*cos(30/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+<!-- tooth 32-->
+    <collision name="tracked_robot__collision_tooth_32">
+      <origin rpy="0 0 ${-31*2*pi/32}" xyz="${rad*sin(31/32*2*pi)} ${rad*cos(31/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </collision>
+    <visual name="tracked_robot__visual_tooth_32">
+      <origin rpy="0 0 ${-31*2*pi/32}" xyz="${rad*sin(31/32*2*pi)} ${rad*cos(31/32*2*pi)} 0"/>
+      <geometry>
+	<box size="${p_s} ${p_s + p_d} ${height}"/>
+      </geometry>
+    </visual>
+</robot>

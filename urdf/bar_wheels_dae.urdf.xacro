@@ -1,0 +1,802 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="bar_wheels">
+  <xacro:property name="PI" value="3.14" />
+
+  <!-- Left front bar wheels -->
+
+
+  <link name="left_front_bar_wheel_2">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="left_front_bar_wheel_2_collision">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/09wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="left_front_bar_wheel_2_visual">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/09wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="left_front_bar_wheel_2_hinge" type="continuous">
+    <parent link="left_front_bar"/>
+    <child link="left_front_bar_wheel_2"/>
+    <origin rpy="0 0 0" xyz="${(x_size/2-0.01)/4} 0 ${h_bar + height/2}"/>
+    <axis xyz="0 0 1"/>
+            <dynamics damping="${damping}" friction="${friction}"/>
+    <limit effort="100.0" velocity="5.0"/>
+  </joint>
+  <gazebo reference="left_front_bar_wheel_2">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+  </gazebo>
+  <transmission name="left_front_bar_wheel_2_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="left_front_bar_wheel_motor_2">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="left_front_bar_wheel_2_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+
+  <link name="left_front_bar_wheel_3">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="left_front_bar_wheel_3_collision">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/08wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="left_front_bar_wheel_3_visual">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/08wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+      
+  </link>
+  <joint name="left_front_bar_wheel_3_hinge" type="continuous">
+    <parent link="left_front_bar"/>
+    <child link="left_front_bar_wheel_3"/>
+    <origin rpy="0 0 0" xyz="${(x_size/2-0.01)*2/4} 0 ${h_bar + height/2}"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="${damping}" friction="${friction}"/>
+    <limit effort="100.0" velocity="5.0"/>
+  </joint>
+  <gazebo reference="left_front_bar_wheel_3">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+  </gazebo>
+
+  <transmission name="left_front_bar_wheel_3_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="left_front_bar_wheel_motor_3">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="left_front_bar_wheel_3_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+
+  <link name="left_front_bar_wheel_4">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="left_front_bar_wheel_4_collision">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/07wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="left_front_bar_wheel_4_visual">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/07wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+      
+  </link>
+  <joint name="left_front_bar_wheel_4_hinge" type="continuous">
+    <parent link="left_front_bar"/>
+    <child link="left_front_bar_wheel_4"/>
+    <origin rpy="0 0 0" xyz="${(x_size/2-0.01)*3/4} 0 ${h_bar + height/2}"/>
+    <axis xyz="0 0 1"/>
+            <dynamics damping="${damping}" friction="${friction}"/>
+    <limit effort="100.0" velocity="5.0"/>
+  </joint>
+  <gazebo reference="left_front_bar_wheel_4">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+   
+  </gazebo>
+
+  <transmission name="left_front_bar_wheel_4_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="left_front_bar_wheel_motor_4">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="left_front_bar_wheel_4_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+
+  <link name="left_front_bar_wheel_5">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="left_front_bar_wheel_5_collision">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/06wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="left_front_bar_wheel_5_visual">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/06wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+      
+  </link>
+
+  <joint name="left_front_bar_wheel_5_hinge" type="continuous">
+    <parent link="left_front_bar"/>
+    <child link="left_front_bar_wheel_5"/>
+    <origin rpy="0 0 0" xyz="${(x_size/2-0.01)*4/4} 0 ${h_bar + height/2}"/>
+    <axis xyz="0 0 1"/>
+            <dynamics damping="${damping}" friction="${friction}"/>
+    <limit effort="100.0" velocity="5.0"/>
+  </joint>
+
+  <gazebo reference="left_front_bar_wheel_5">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+  </gazebo>
+  <transmission name="left_front_bar_wheel_5_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="left_front_bar_wheel_motor_5">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="left_front_bar_wheel_5_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+  <!-- Left rear bar wheels -->
+
+  <link name="left_rear_bar_wheel_2">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="left_rear_bar_wheel_2_collision">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/09wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="left_rear_bar_wheel_2_visual">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/09wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+      
+  </link>
+  <joint name="left_rear_bar_wheel_2_hinge" type="continuous">
+    <parent link="left_rear_bar"/>
+    <child link="left_rear_bar_wheel_2"/>
+    <origin rpy="0 0 0" xyz="${(x_size/2-0.01)/4} 0 ${h_bar + height/2}"/>
+    <axis xyz="0 0 1"/>
+            <dynamics damping="${damping}" friction="${friction}"/>
+    <limit effort="100.0" velocity="5.0"/>
+  </joint>
+  <gazebo reference="left_rear_bar_wheel_2">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+  </gazebo>
+
+  <transmission name="left_rear_bar_wheel_2_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="left_rear_bar_wheel_motor_2">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="left_rear_bar_wheel_2_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+
+  <link name="left_rear_bar_wheel_3">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="left_rear_bar_wheel_3_collision">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/08wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="left_rear_bar_wheel_3_visual">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/08wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+      
+  </link>
+  <joint name="left_rear_bar_wheel_3_hinge" type="continuous">
+    <parent link="left_rear_bar"/>
+    <child link="left_rear_bar_wheel_3"/>
+    <origin rpy="0 0 0" xyz="${(x_size/2-0.01)*2/4} 0 ${h_bar + height/2}"/>
+    <axis xyz="0 0 1"/>
+            <dynamics damping="${damping}" friction="${friction}"/>
+    <limit effort="100.0" velocity="5.0"/>
+  </joint>
+  <gazebo reference="left_rear_bar_wheel_3">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+
+    
+  </gazebo>
+
+  <transmission name="left_rear_bar_wheel_3_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="left_rear_bar_wheel_motor_3">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="left_rear_bar_wheel_3_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+
+  <link name="left_rear_bar_wheel_4">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="left_rear_bar_wheel_4_collision">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/07wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="left_rear_bar_wheel_4_visual">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/07wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+      
+  </link>
+  <joint name="left_rear_bar_wheel_4_hinge" type="continuous">
+    <parent link="left_rear_bar"/>
+    <child link="left_rear_bar_wheel_4"/>
+    <origin rpy="0 0 0" xyz="${(x_size/2-0.01)*3/4} 0 ${h_bar + height/2}"/>
+    <axis xyz="0 0 1"/>
+            <dynamics damping="${damping}" friction="${friction}"/>
+    <limit effort="100.0" velocity="5.0"/>
+  </joint>
+  <gazebo reference="left_rear_bar_wheel_4">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+    
+  </gazebo>
+
+  <transmission name="left_rear_bar_wheel_4_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="left_rear_bar_wheel_motor_4">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="left_rear_bar_wheel_4_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+
+  <link name="left_rear_bar_wheel_5">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="left_rear_bar_wheel_5_collision">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/06wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="left_rear_bar_wheel_5_visual">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/06wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+      
+  </link>
+  <joint name="left_rear_bar_wheel_5_hinge" type="continuous">
+    <parent link="left_rear_bar"/>
+    <child link="left_rear_bar_wheel_5"/>
+    <origin rpy="0 0 0" xyz="${(x_size/2-0.01)*4/4} 0 ${h_bar + height/2}"/>
+    <axis xyz="0 0 1"/>
+            <dynamics damping="${damping}" friction="${friction}"/>
+    <limit effort="100.0" velocity="5.0"/>
+  </joint>
+  <gazebo reference="left_rear_bar_wheel_5">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+    
+  </gazebo>
+  <transmission name="left_rear_bar_wheel_5_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="left_rear_bar_wheel_motor_5">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="left_rear_bar_wheel_5_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+
+  <!-- right front bar wheels -->
+
+  <link name="right_front_bar_wheel_2">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="right_front_bar_wheel_2_collision">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/09wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="right_front_bar_wheel_2_visual">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/09wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+      
+  </link>
+  <joint name="right_front_bar_wheel_2_hinge" type="continuous">
+    <parent link="right_front_bar"/>
+    <child link="right_front_bar_wheel_2"/>
+    <origin rpy="${PI} 0 0" xyz="${(x_size/2-0.01)/4} 0 ${h_bar + height/2}"/>
+    <axis xyz="0 0 1"/>
+            <dynamics damping="${damping}" friction="${friction}"/>
+    <limit effort="100.0" velocity="5.0"/>
+  </joint>
+  <gazebo reference="right_front_bar_wheel_2">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+    
+  </gazebo>
+  <transmission name="right_front_bar_wheel_2_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="right_front_bar_wheel_motor_2">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="right_front_bar_wheel_2_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+  <link name="right_front_bar_wheel_3">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="right_front_bar_wheel_3_collision">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/08wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="right_front_bar_wheel_3_visual">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/08wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+      
+  </link>
+  <joint name="right_front_bar_wheel_3_hinge" type="continuous">
+    <parent link="right_front_bar"/>
+    <child link="right_front_bar_wheel_3"/>
+    <origin rpy="${PI} 0 0" xyz="${(x_size/2-0.01)*2/4} 0 ${h_bar + height/2}"/>
+    <axis xyz="0 0 1"/>
+            <dynamics damping="${damping}" friction="${friction}"/>
+    <limit effort="100.0" velocity="5.0"/>
+  </joint>
+  <gazebo reference="right_front_bar_wheel_3">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+    
+  </gazebo>
+  <transmission name="right_front_bar_wheel_3_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="right_front_bar_wheel_motor_3">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="right_front_bar_wheel_3_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    <limit effort="100.0" velocity="5.0"/>
+    </joint>
+  </transmission>
+
+  <link name="right_front_bar_wheel_4">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="right_front_bar_wheel_4_collision">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/07wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="right_front_bar_wheel_4_visual">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/07wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+      
+  </link>
+  <joint name="right_front_bar_wheel_4_hinge" type="continuous">
+    <parent link="right_front_bar"/>
+    <child link="right_front_bar_wheel_4"/>
+    <origin rpy="${PI} 0 0" xyz="${(x_size/2-0.01)*3/4} 0 ${h_bar + height/2}"/>
+    <axis xyz="0 0 1"/>
+            <dynamics damping="${damping}" friction="${friction}"/>
+    <limit effort="100.0" velocity="5.0"/>
+  </joint>
+  <gazebo reference="right_front_bar_wheel_4">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+    
+  </gazebo>
+  <transmission name="right_front_bar_wheel_4_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="right_front_bar_wheel_motor_4">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="right_front_bar_wheel_4_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+  <link name="right_front_bar_wheel_5">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="right_front_bar_wheel_5_collision">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/06wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="right_front_bar_wheel_5_visual">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/06wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+      
+  </link>
+  <joint name="right_front_bar_wheel_5_hinge" type="continuous">
+    <parent link="right_front_bar"/>
+
+    <child link="right_front_bar_wheel_5"/>
+    <origin rpy="${PI} 0 0" xyz="${(x_size/2-0.01)*4/4} 0 ${h_bar + height/2}"/>
+    <axis xyz="0 0 1"/>
+        <dynamics damping="${damping}" friction="${friction}"/>
+    <limit effort="100.0" velocity="5.0"/>
+  </joint>
+
+  <gazebo reference="right_front_bar_wheel_5">
+
+
+
+
+      <mu1>${mu1}</mu1>
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+  </gazebo>
+
+  <transmission name="right_front_bar_wheel_5_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="right_front_bar_wheel_motor_5">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="right_front_bar_wheel_5_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+  <!-- right rear bar wheels -->
+
+  <link name="right_rear_bar_wheel_2">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="right_rear_bar_wheel_2_collision">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/09wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="right_rear_bar_wheel_2_visual">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/09wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+      
+  </link>
+  <joint name="right_rear_bar_wheel_2_hinge" type="continuous">
+    <parent link="right_rear_bar"/>
+    <child link="right_rear_bar_wheel_2"/>
+    <origin rpy="${PI} 0 0" xyz="${(x_size/2-0.01)/4} 0 ${h_bar + height/2}"/>
+    <axis xyz="0 0 1"/>
+            <dynamics damping="${damping}" friction="${friction}"/>
+    <limit effort="100.0" velocity="5.0"/>
+  </joint>
+  <gazebo reference="right_rear_bar_wheel_2">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+    
+  </gazebo>
+  <transmission name="right_rear_bar_wheel_2_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="right_rear_bar_wheel_motor_2">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="right_rear_bar_wheel_2_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+  <link name="right_rear_bar_wheel_3">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="right_rear_bar_wheel_3_collision">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/08wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="right_rear_bar_wheel_3_visual">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/08wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+      
+  </link>
+  <joint name="right_rear_bar_wheel_3_hinge" type="continuous">
+    <parent link="right_rear_bar"/>
+    <child link="right_rear_bar_wheel_3"/>
+    <origin rpy="${PI} 0 0" xyz="${(x_size/2-0.01)*2/4} 0 ${h_bar + height/2}"/>
+    <axis xyz="0 0 1"/>
+            <dynamics damping="${damping}" friction="${friction}"/>
+    <limit effort="100.0" velocity="5.0"/>
+  </joint>
+  <gazebo reference="right_rear_bar_wheel_3">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+    
+  </gazebo>
+  <transmission name="right_rear_bar_wheel_3_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="right_rear_bar_wheel_motor_3">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="right_rear_bar_wheel_3_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    <limit effort="100.0" velocity="5.0"/>
+    </joint>
+  </transmission>
+
+  <link name="right_rear_bar_wheel_4">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="right_rear_bar_wheel_4_collision">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/07wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="right_rear_bar_wheel_4_visual">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/07wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+      
+  </link>
+  <joint name="right_rear_bar_wheel_4_hinge" type="continuous">
+    <parent link="right_rear_bar"/>
+    <child link="right_rear_bar_wheel_4"/>
+    <origin rpy="${PI} 0 0" xyz="${(x_size/2-0.01)*3/4} 0 ${h_bar + height/2}"/>
+    <axis xyz="0 0 1"/>
+            <dynamics damping="${damping}" friction="${friction}"/>
+    <limit effort="100.0" velocity="5.0"/>
+  </joint>
+  <gazebo reference="right_rear_bar_wheel_4">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+    
+  </gazebo>
+  <transmission name="right_rear_bar_wheel_4_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="right_rear_bar_wheel_motor_4">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="right_rear_bar_wheel_4_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+  <link name="right_rear_bar_wheel_5">
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <inertia ixx="${ixxw}" ixy="0" ixz="0" iyy="${iyyw}" iyz="0" izz="${izzw}"/>
+    </inertial>
+    <collision name="right_rear_bar_wheel_5_collision">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/06wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </collision>
+    <visual name="right_rear_bar_wheel_5_visual">
+      <geometry>
+        <mesh filename="package://tracked_robot_test/meshes/06wheel.dae" scale="${scalling} ${scalling} ${scalling}"/>
+      </geometry>
+    </visual>
+      
+  </link>
+  <joint name="right_rear_bar_wheel_5_hinge" type="continuous">
+    <parent link="right_rear_bar"/>
+
+    <child link="right_rear_bar_wheel_5"/>
+    <origin rpy="${PI} 0 0" xyz="${(x_size/2-0.01)*4/4} 0 ${h_bar + height/2}"/>
+    <axis xyz="0 0 1"/>
+        <dynamics damping="${damping}" friction="${friction}"/>
+    <limit effort="100.0" velocity="5.0"/>
+  </joint>
+
+  <gazebo reference="right_rear_bar_wheel_5">
+      <mu1>${mu1}</mu1> 
+      <mu2>${mu2}</mu2> 
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <maxVel>${maxVel}</maxVel>
+      <fdir1>${fdir1}</fdir1>
+
+      <minDepth>${minDepth}</minDepth>
+      <maxContacts>${maxContacts}</maxContacts>
+  </gazebo>
+
+  <transmission name="right_rear_bar_wheel_5_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="right_rear_bar_wheel_motor_5">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="right_rear_bar_wheel_5_hinge">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+</robot>

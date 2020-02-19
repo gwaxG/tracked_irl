@@ -1,12 +1,41 @@
 <?xml version="1.0"?>
 <launch>
-  <!--Params -->
-  <arg name="paused" default="false"/>
+    <!--Params -->
+    <arg name="simulation" default="True"/>
 
-  <node pkg="joy" type="joy_node" name="joy_control" output="screen" >
-  </node>
+    <!--Checking for simulation
+	if tf tree is broken then check for odom -> dummy transformation
+    -->
+    <group if="$(eval arg('simulation') == True)">
+        <!--Load robot model and corresponding controllers-->
+        <include file="$(find tracked_irl)/launch/simulation_files.launch"/>
+    </group>
+    <group if="$(eval arg('simulation') == False)">
+        <!--Load robot model and corresponding controllers-->
+        <include file="$(find tracked_irl)/launch/real_robot_files.launch"/>
+    </group>
 
-  <node pkg="tracked_irl" type="joystick.py" name="joystick_control"   output="screen" >
-   </node> 
+    <!--Common nodes-->
+    <!--Joystick driver // used for real and simulated robot control-->
+    <node pkg="joy" type="joy_node" name="joy_control" output="screen" />
+
+    <!-- SLAM -->
+    <!-- Gmapping -->
+    <node pkg="gmapping" type="slam_gmapping" name="gmapping_thing" output="screen" >
+      <param name="odom_frame" value="/odom" />
+      <param name="base_frame" value="/base_link" />
+    </node> 
+
+    <!-- Point cloud to laser scan -->
+    <node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan" output="screen" >
+      <remap from="/image" to="/camera/depth/image_raw" />
+    </node>
+
+    <!-- PERCEPTION -->
+    <!-- Perception controll // what is that -->
+    <node pkg="tracked_robot_test" name="perception" type="perception_control.py" output="screen"/> 
+    <!-- Stairs position 
+    <node pkg="tracked_robot_test" name="stairs_position" type="stairs_position.py" output="screen"/> -->
+
 </launch>
 
