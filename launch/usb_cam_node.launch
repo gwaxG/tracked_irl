@@ -1,11 +1,7 @@
 <?xml version="1.0"?>
 <launch>
-  <!--
-    <rosparam file="$(find tracked_irl)/config/orbbec1_calibration.yaml" command="load"/>
-  -->
   <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" >
     <param name="video_device" value="/dev/video0" />
-    <param name="camera_info_url" value="/home/r1d1/dev/catkin_ws/src/tracked_irl/config/orbbec1_calibration.yaml" />
     <param name="image_width" value="640" />
     <param name="image_height" value="480" />
     <param name="pixel_format" value="yuyv" />
@@ -17,4 +13,3 @@
     <param name="autosize" value="true" />
   </node>
 </launch>
-

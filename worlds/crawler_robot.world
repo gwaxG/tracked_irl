@@ -105,9 +105,36 @@
       </link>
 
     </model>
+
+    <model name="marker_1">
+      <pose>0.725 0.725 0.005  0 0 3.14</pose>
+
+      <static>true</static>
+      <link name="body">
+        <visual name="visual">
+          <geometry>
+            
+            <mesh>
+                <!--<uri>file://worlds/meshes/marker_1.dae</uri>-->
+                <uri>model://markers/meshes/marker_1.dae</uri>
+		<scale>0.25 0.25 1</scale>
+            </mesh>
+          </geometry>
+        </visual>
+      </link>
+    </model>
+
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>0 0 0 0 0 0</pose>
+      </camera>
+    </gui>  
+
     <model name="stairs">
       <pose> 1.0 0 0.05 0 0 0</pose>
       <static>true</static>
+
+    
 
       <link name="step1">
         <collision name="collision">

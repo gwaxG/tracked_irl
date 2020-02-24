@@ -1,10 +1,29 @@
 <?xml version="1.0"?>
 <sdf version="1.5">
+
     <model name="stairs">
       <static>true</static>
       <pose> 1.0 0 0.05 0 0 0</pose>
+      
+      <link name="table">
+        <pose> 0.0 0.0 2.0 0 0 0</pose>
+        <collision name="collision">
+          <geometry>
+            <box> <size>0.4 0.4 0.4</size> </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box> <size>0.4 0.4 0.4</size> </box>
+          </geometry>
+          <!--  <mesh>
+                    <uri>model://home/r1d1/dev/catkin_ws/src/tracked_irl/meshes/markers/marker_1.dae</uri>
+            </mesh> -->
+
+        </visual>
+      </link>      
+      
       <link name="step1">
-  
         <collision name="collision">
           <geometry>
             <box> <size>0.8 1.2 0.1</size> </box>

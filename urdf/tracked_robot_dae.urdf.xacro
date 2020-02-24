@@ -2,6 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="tracked_robot">
   <xacro:property name="PI" value="3.14" />
   <xacro:property name="scalling" value="1.0" />
+  <xacro:property name="scalling_marker" value="0.15" />
 
   <!-- Gazebo reference -->
   <xacro:property name="mu1" value="0.8" />
@@ -22,6 +23,11 @@
   <xacro:property name="fric_bar" value="0.0" />
   <xacro:property name="damping" value="0.0" />
   <xacro:property name="friction" value="0.0" />
+
+  <!-- Base size -->
+  <xacro:property name="x_size_marker" value="1.0" />
+  <xacro:property name="y_size_marker" value="1.0" />
+  <xacro:property name="z_size_marker" value="0.01" />  
 
   <!-- Base size -->
   <xacro:property name="x_size" value="0.32" />
@@ -75,7 +81,6 @@
   </material>
 
   <link name="dummy">
-    
   </link>
 
   <link name="base_link">
@@ -115,11 +120,36 @@
     </visual> <!---->
   </link>
 
+
   <joint name="dummy_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 -0.068"/>
      <parent link="dummy"/>
-
      <child link="base_link"/>
+   </joint>
+
+  <link name="marker_0">
+    <inertial>
+      <mass value="0.001"/>
+      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+    <collision name="marker_0">
+      <geometry>
+        <mesh filename="package://tracked_irl/meshes/markers/marker_0.dae" scale="${scalling_marker} ${scalling_marker} ${scalling_marker}"/>
+      </geometry>
+    </collision>
+    <visual name="marker_0">
+      <geometry>
+        <mesh filename="package://tracked_irl/meshes/markers/marker_0.dae" scale="${scalling_marker} ${scalling_marker} ${scalling_marker}"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="marker_0" type="fixed">
+    <origin rpy="0 0 3.14" xyz="${-x_size/2 + x_size_marker *  scalling_marker / 2 } 0 ${0.068 + z_size/2+ z_size_marker * scalling_marker + 0.001}"/>
+     <parent link="base_link"/>
+
+     <child link="marker_0"/>
    </joint>
 
 <!-- Left side wheels -->

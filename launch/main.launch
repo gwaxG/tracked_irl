@@ -33,9 +33,20 @@
 
     <!-- PERCEPTION -->
     <!-- Perception controll // what is that -->
-    <node pkg="tracked_robot_test" name="perception" type="perception_control.py" output="screen"/> 
-    <!-- Stairs position 
+    <!-- Cameras 
+    <include file="$(find tracked_irl)/launch/usb_cam_node.launch"/> -->
+    <!-- AR tracking Alvar 
+	// transformation from the appropriate point in the space should be considered 
+	// condition between position of camera in RL and simulation 
+	// it should be calculated automatically from the start robot position.
+
+    <include file="$(find tracked_irl)/launch/ar_track_usbcam.launch"/>
+	-->
+    <!--<node pkg="tracked_robot_test" name="perception" type="perception_control.py" output="screen"/> 
+     Stairs position 
     <node pkg="tracked_robot_test" name="stairs_position" type="stairs_position.py" output="screen"/> -->
+
+
 
 </launch>
 
