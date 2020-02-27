@@ -46,6 +46,14 @@
      Stairs position 
     <node pkg="tracked_robot_test" name="stairs_position" type="stairs_position.py" output="screen"/> -->
 
+    <!--Camera-->
+
+
+
+    <!-- Debug tools -->
+    <node name="rviz" pkg="rviz" type="rviz"
+        output="screen">
+    </node>
 
 
 </launch>

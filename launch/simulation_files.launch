@@ -17,6 +17,7 @@
   <!-- Robot's URDF -->
   <param name="robot_description" command="xacro --inorder '$(find tracked_irl)/urdf/tracked_robot_dae.urdf.xacro'"/>
 <!--   Run a python script to send a service call to gazebo_ros to spawn a URDF robot -->
+
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
 args="-urdf -model tracked_robot -param robot_description">
   </node>
@@ -47,7 +48,7 @@ args="-urdf -model tracked_robot -param robot_description">
 			left_front_bar_wheel_3_hinge_effort_controller
 			left_front_bar_wheel_4_hinge_effort_controller
 			left_front_bar_wheel_5_hinge_effort_controller
-			right_front_bar_wheel_2_hinge_effort_controller
+  			right_front_bar_wheel_2_hinge_effort_controller
 			right_front_bar_wheel_3_hinge_effort_controller
 			right_front_bar_wheel_4_hinge_effort_controller
 			right_front_bar_wheel_5_hinge_effort_controller
@@ -65,14 +66,12 @@ args="-urdf -model tracked_robot -param robot_description">
 			right_rear_bar_wheel_5_hinge_effort_controller "/>
 
 
+
+
 <!--Odometry retrieved from Gazebo-->
     <node pkg="tracked_irl" type="odometry_gazebo.py" name="odometry_gazebo" output="screen" />
 
-    <!--   convert joint states to TF transforms for rviz, etc -->
-      <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
-	    respawn="false" output="screen">
-        <remap from="/joint_states" to="/tracked_robot/joint_states" />
-      </node>
+
 
     <!-- Remapping from Kinect to "LiDAR" and so on; needed for SLAM pkgs -->
 
@@ -83,8 +82,34 @@ args="-urdf -model tracked_robot -param robot_description">
 
     <!-- Robot pose publisher -->
       <node pkg="robot_pose_publisher" name="robot_pose_publisher" type="robot_pose_publisher" output="log"/>
-    <!--TF from dummy to odom-->
-    <node pkg="tracked_irl" name="dummy2odom" type="dummy2odom.py" output="screen"/>
+    <!--
+      TF from dummy to odom
+      It does not start from roslaunch but works fine with rosrun.
+    -->
+    <node pkg="tf" type="static_transform_publisher" name="bar_link_broadcaster" args="1.5 1.2 3.0 0 0 -0.70682518,  0.70738827 /map /bar_link 100" />
+    <node pkg="tracked_irl" type="dummy2odom.py" name="dummy2odom"  output="screen"/>
+
+    <!-- State publisers-->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+      respawn="false" output="screen">
+      <remap from="/joint_states" to="/tracked_robot/joint_states" />
+    </node>
+    <!-- Camera group
+    <group ns="camera">
+    </group>
+    -->
+
+    <param name="robot_description_cam" command="xacro --inorder '$(find tracked_irl)/urdf/test.urdf.xacro'"/>
+
+    <node name="urdf_spawner_camera" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+      args="-urdf -model camera -param robot_description_cam">
+    </node>
+
+    <node name="camera_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+      respawn="false" output="screen">
+            <remap from="robot_description" to="robot_description_cam" />
+    </node>
+    <include file="$(find tracked_irl)/launch/ar_track_usbcam_sim.launch"/>
 
 </launch>
 

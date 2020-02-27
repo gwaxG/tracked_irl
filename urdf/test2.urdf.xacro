@@ -1,0 +1,206 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="camera">
+  <xacro:property name="PI" value="3.14" />
+  <xacro:property name="scalling" value="1.0" />
+  <xacro:property name="scalling_marker" value="0.15" />
+
+  <!-- Gazebo reference -->
+  <xacro:property name="mu1" value="0.8" />
+  <xacro:property name="mu2" value="0.8" />
+  <xacro:property name="kp" value="1000000.0" />
+  <xacro:property name="kd" value="1.0" />
+  <xacro:property name="slip1" value="0.0" />
+  <xacro:property name="slip2" value="0.0" />
+  <xacro:property name="maxVel" value="0.0" />
+  <xacro:property name="fdir1" value="0 0 1" />
+  <xacro:property name="maxContacts" value="1" />
+  <xacro:property name="minDepth" value="0.0001" />
+  <xacro:property name="dampingFactor" value="0.01" />
+  <xacro:property name="dampingFactorW" value="0.05" />
+
+  <!-- Friction and damping -->
+  <xacro:property name="damp_bar" value="0.2" />
+  <xacro:property name="fric_bar" value="0.0" />
+  <xacro:property name="damping" value="0.0" />
+  <xacro:property name="friction" value="0.0" />
+
+  <!-- bar size -->
+  <xacro:property name="x_size" value="0.1" />
+  <xacro:property name="y_size" value="0.1" />
+  <xacro:property name="z_size" value="1.5" />  
+  <xacro:property name="bar_height" value="0.07" />
+  
+  <!-- Bar size -->
+  <xacro:property name="L_bar" value="${x_size/2+0.01}" />
+  <xacro:property name="w_bar" value="0.01" />
+  <xacro:property name="h_bar" value="0.001" />
+
+  <!-- Wheel size -->
+  <xacro:property name="radius" value="0.05" />
+  <xacro:property name="height" value="0.01" />
+
+  <!-- Masses -->
+  <xacro:property name="mass_bar" value="40.0" />
+  <xacro:property name="wheel_mass" value="0.2" />
+  <xacro:property name="mass_bar" value="0.05" />
+ 
+  <!-- Inertia -->
+
+  <xacro:property name="ixxw" value="${wheel_mass*(0.25)*radius*radius}" />
+  <xacro:property name="iyyw" value="${wheel_mass*(0.25)*radius*radius}" />
+  <xacro:property name="izzw" value="${wheel_mass*(0.5)*radius*radius}" />
+
+  <xacro:property name="ixxb" value="${mass_bar*(1/12)*(y_size*y_size+z_size*z_size)}" />
+  <xacro:property name="iyyb" value="${mass_bar*(1/12)*(x_size*x_size+z_size*z_size)}" />
+  <xacro:property name="izzb" value="${mass_bar*(1/12)*(y_size*y_size+x_size*x_size)}" />
+  <!-- Inertia 
+  <xacro:property name="ixxbar" value="${mass_bar/12*(w_bar*w_bar+h_bar*h_bar)}" />
+  <xacro:property name="iyybar" value="${mass_bar/12*(L_bar*L_bar+h_bar*h_bar)}" />
+  <xacro:property name="izzbar" value="${mass_bar/12*(L_bar*L_bar+w_bar*w_bar)}" />
+  -->
+
+  <xacro:property name="ixxbar" value="0.1" />
+  <xacro:property name="iyybar" value="0.1" />
+  <xacro:property name="izzbar" value="0.1" />
+
+  <material name="orange">
+    <color rgba="${255/255} ${108/255} ${10/255} 1.0"/>
+  </material>
+
+  <material name="black">
+    <color rgba="0 0 0.8 1"/>
+  </material>
+
+  <material name="blue">
+    <color rgba="0 0 0.8 1"/>
+  </material>
+  <link name="map"/>
+  <link name="world"/>
+  <joint name="world_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+     <parent link="world"/>	
+     <child link="map"/>
+   </joint>
+  
+
+  <link name="bar_link">
+
+    <inertial>
+      <mass value="100"/>
+      <!--//      <origin rpy="0 0 1.57" xyz="0.5 1.5 ${z_size/2}"/>
+ <inertia
+
+      ixx="${mass_bar/12*(y_size*y_size+z_size*z_size)}" ixy="0.0" ixz="0.0" iyy="${mass_bar/12*(x_size*x_size+z_size*z_size)}" iyz="0.0" izz="${mass_bar/12*(y_size*y_size+x_size*x_size)}"/> //-->
+      <inertia ixx="${ixxb}" ixy="0" ixz="0" iyy="${iyyb}" iyz="0" izz="${izzb}"/>
+    </inertial>
+    <!--<collision name="tracked_robot__collision">
+      <origin rpy="0 0 0" xyz="0   0   ${bar_height}"/>
+      <geometry>
+        <box size="${x_size} ${y_size} ${z_size}"/>
+      </geometry>
+    </collision>-->
+
+    <!--<visual name="tracked_robot__visual">
+      <origin rpy="0 0 0" xyz="0   0   ${bar_height}"/>
+      <geometry>
+        <box size="${x_size} ${y_size} ${z_size}"/>
+      </geometry>
+    </visual>-->
+
+  </link>
+
+      <link name="camera_link">
+        <inertial_sphere mass="0.01" diameter="0.07" />
+        <visual>
+          <origin xyz="0 0 0.0" rpy="0 0 0" />
+          <geometry>
+            <mesh filename="package://hector_sensors_description/meshes/kinect_camera/kinect_camera_simple.dae"/>
+          </geometry>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="package://hector_sensors_description/meshes/kinect_camera/kinect_camera_simple.stl"/>
+          </geometry>
+        </collision>
+      </link>
+
+  <joint name="map_joint" type="fixed">
+     <origin rpy="0 0 -0.83" xyz="-0.45 1.2 1.0"/> <!--0 1.0 ${z_size}-->
+     <parent link="map"/>
+     <child link="bar_link"/>
+   </joint>
+
+    <joint name="camera_joint" type="fixed">
+	<!--<origin rpy="0 0 -0.9" xyz="-0.75 2.0 ${z_size/2}"/>-->
+        <origin xyz="0 0 0" rpy="0 0.65 0.0"/>
+        <parent link="bar_link"/>
+        <child link="camera_link"/>
+      </joint>
+
+<!-- KINECT -->
+      <joint name="camera_depth_joint" type="fixed">
+        <origin xyz="0.0 -0.02 0.0" rpy="0 0 0" />
+        <parent link="camera_link" />
+        <child link="camera_depth_frame"/>
+      </joint>
+
+      <link name="camera_depth_frame"/>
+
+      <joint name="camera_depth_optical_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="${-PI/2} 0.0 ${-PI/2}" />
+        <parent link="camera_depth_frame" />
+        <child link="camera_depth_optical_frame"/>
+      </joint>
+
+      <link name="camera_depth_optical_frame"/>
+
+      <joint name="camera_rgb_joint" type="fixed">
+        <origin xyz="0.0 -0.0125 0.0" rpy="0 0 0" />
+        <parent link="camera_link" />
+        <child link="camera_rgb_frame"/>
+      </joint>
+
+      <link name="camera_rgb_frame"/>
+
+      <joint name="camera_rgb_optical_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="${-PI/2} 0.0 ${-PI/2}" />
+        <parent link="camera_rgb_frame" />
+        <child link="camera_rgb_optical_frame"/>
+      </joint>
+
+      <link name="camera_rgb_optical_frame"/>
+
+      <gazebo reference="camera_depth_frame">
+        <sensor type="depth" name="camera">
+          <update_rate>20</update_rate>
+          <camera>
+            <horizontal_fov>${60 * PI/180.0}</horizontal_fov> <!--Default 60-->
+            <image>
+              <format>R8G8B8</format>
+              <width>3000</width>
+              <height>2250</height>
+            </image>
+            <clip>
+              <near>0.05</near>
+              <far>10</far>
+            </clip>
+          </camera>
+
+          <plugin name="camera_camera_controller" filename="libgazebo_ros_openni_kinect.so">
+            <alwaysOn>true</alwaysOn>
+            <updateRate>20</updateRate>
+            <imageTopicName>outter_camera/rgb/image_raw</imageTopicName>
+            <cameraInfoTopicName>outter_camera/rgb/camera_info</cameraInfoTopicName>
+            <depthImageTopicName>outter_camera/depth/image_raw</depthImageTopicName>
+            <depthImageCameraInfoTopicName>outter_camera/depth/camera_info</depthImageCameraInfoTopicName>
+            <frameName>camera_depth_optical_frame</frameName>
+            <distortion_k1>0.0</distortion_k1>
+            <distortion_k2>0.0</distortion_k2>
+            <distortion_k3>0.0</distortion_k3>
+            <distortion_t1>0.0</distortion_t1>
+            <distortion_t2>0.0</distortion_t2>
+          </plugin>
+        </sensor>
+      </gazebo>
+<!-- END Kinect -->
+</robot>
