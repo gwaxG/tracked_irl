@@ -68,9 +68,9 @@ args="-urdf -model tracked_robot -param robot_description">
 
 
 
-<!--Odometry retrieved from Gazebo-->
+<!--Odometry retrieved from Gazebo
     <node pkg="tracked_irl" type="odometry_gazebo.py" name="odometry_gazebo" output="screen" />
-
+-->
 
 
     <!-- Remapping from Kinect to "LiDAR" and so on; needed for SLAM pkgs -->
@@ -82,22 +82,26 @@ args="-urdf -model tracked_robot -param robot_description">
 
     <!-- Robot pose publisher -->
       <node pkg="robot_pose_publisher" name="robot_pose_publisher" type="robot_pose_publisher" output="log"/>
-    <!--
-      TF from dummy to odom
-      It does not start from roslaunch but works fine with rosrun.
-    -->
+    <!--Broadcast transformation from the map to bar link on what the camera is placed-->
     <node pkg="tf" type="static_transform_publisher" name="bar_link_broadcaster" args="1.5 1.2 3.0 0 0 -0.70682518,  0.70738827 /map /bar_link 100" />
+
+    <!--
+      Broadcasters:
+      broadcasting: odometry from ar markers observations
+                    dummy to odometry transformation
+                    stair location in map frame
+    -->
+    <node pkg="tracked_irl" type="ar_odometry.py" name="ar_odometry"  output="screen"/>
     <node pkg="tracked_irl" type="dummy2odom.py" name="dummy2odom"  output="screen"/>
+    <node pkg="tracked_irl" type="ar_stair_location.py" name="ar_stair_location"  output="screen"/>
 
     <!-- State publisers-->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
       respawn="false" output="screen">
       <remap from="/joint_states" to="/tracked_robot/joint_states" />
     </node>
-    <!-- Camera group
-    <group ns="camera">
-    </group>
-    -->
+
+    <!-- Camera group -->
 
     <param name="robot_description_cam" command="xacro --inorder '$(find tracked_irl)/urdf/test.urdf.xacro'"/>
 
@@ -110,6 +114,14 @@ args="-urdf -model tracked_robot -param robot_description">
             <remap from="robot_description" to="robot_description_cam" />
     </node>
     <include file="$(find tracked_irl)/launch/ar_track_usbcam_sim.launch"/>
+
+  <!--Joystick control-->
+  <!-- Joystick control+-->
+  <!--<node pkg="joy" type="joy_node" name="joy_control" output="screen" />
+  -->
+  <node pkg="tracked_irl" type="simulation_joystick_control.py" name="joystick_control" output="screen" />
+
+
 
 </launch>
 

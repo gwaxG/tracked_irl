@@ -18,7 +18,6 @@ class Dummy2Odom:
         rospy.spin()
 
     def handle_pose(self, msg):
-        print('Broadcasting dummy to odom')
         self.br.sendTransform((msg.pose.pose.position.x, msg.pose.pose.position.y, msg.pose.pose.position.z),
                          (msg.pose.pose.orientation.x, msg.pose.pose.orientation.y, msg.pose.pose.orientation.z,
                           msg.pose.pose.orientation.w),
