@@ -1,0 +1,7 @@
+[stair]
+n_steps = 5
+h_step = 0.1
+tread = 0.4
+horizon = 1.0
+x_initial = 0.6
+

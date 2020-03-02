@@ -1,31 +1,32 @@
 <?xml version="1.0"?>
 <launch>
-  <!-- Spawn world -->
+    <!-- Spawn world -->
     <arg name="paused" default="False"/>
     <arg name="use_sim_time" default="true"/>
-    <arg name="gui" default="true"/>
+    <arg name="gui" default="false"/>
     <arg name="headless" default="false"/>
     <arg name="debug" default="false"/>
-  <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find tracked_irl)/worlds/crawler_robot.world"/>
-    <arg name="debug" value="$(arg debug)" />
-    <arg name="gui" value="$(arg gui)" />
-    <arg name="paused" value="$(arg paused)"/>
-    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
-    <arg name="headless" value="$(arg headless)"/>
-  </include>
-  <!-- Robot's URDF -->
-  <param name="robot_description" command="xacro --inorder '$(find tracked_irl)/urdf/tracked_robot_dae.urdf.xacro'"/>
-<!--   Run a python script to send a service call to gazebo_ros to spawn a URDF robot -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find tracked_irl)/worlds/crawler_robot_surface.world"/>
+        <!--<arg name="world_name" value="$(find tracked_irl)/worlds/crawler_robot.world"/>-->
+        <arg name="debug" value="$(arg debug)"/>
+        <arg name="gui" value="$(arg gui)"/>
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+        <arg name="headless" value="$(arg headless)"/>
+    </include>
+    <!-- Robot's URDF -->
+    <param name="robot_description" command="xacro --inorder '$(find tracked_irl)/urdf/tracked_robot_dae.urdf.xacro'"/>
+    <!--   Run a python script to send a service call to gazebo_ros to spawn a URDF robot -->
 
-  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-args="-urdf -model tracked_robot -param robot_description">
-  </node>
-  <!--Load parameters of controllers-->
-  <rosparam file="$(find tracked_irl)/config/config.yaml" command="load"/>
-   <!--Load the controllers -->
-  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-	output="screen" ns="/tracked_robot" args="joint_state_controller
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+          args="-urdf -model tracked_robot -param robot_description">
+    </node>
+    <!--Load parameters of controllers-->
+    <rosparam file="$(find tracked_irl)/config/config.yaml" command="load"/>
+    <!--Load the controllers -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+          output="screen" ns="/tracked_robot" args="joint_state_controller
 			left_wheel_1_hinge_effort_controller
 			left_wheel_2_hinge_effort_controller
 			left_wheel_3_hinge_effort_controller
@@ -66,24 +67,27 @@ args="-urdf -model tracked_robot -param robot_description">
 			right_rear_bar_wheel_5_hinge_effort_controller "/>
 
 
-
-
-<!--Odometry retrieved from Gazebo
-    <node pkg="tracked_irl" type="odometry_gazebo.py" name="odometry_gazebo" output="screen" />
--->
+    <!--Odometry retrieved from Gazebo
+        <node pkg="tracked_irl" type="odometry_gazebo.py" name="odometry_gazebo" output="screen" />
+    -->
 
 
     <!-- Remapping from Kinect to "LiDAR" and so on; needed for SLAM pkgs -->
 
-      <!-- TF -->
-      <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="0 0 0 0 0 0 1 /world /map 100" />
+    <!-- TF
+    <node pkg="tf" type="static_transform_publisher" name="goal_broadcaster" args="2 0.5 0 0 0 0 1 /map /goal 100"/>
+    -->
+    <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="0 0 0 0 0 0 1 /world /map 100"/>
 
-      <node pkg="tf" type="static_transform_publisher" name="imu_to_base" args="0 0 0 0 0 0 base_link base_imu_link 10"/>
+
+
+    <node pkg="tf" type="static_transform_publisher" name="imu_to_base" args="0 0 0 0 0 0 base_link base_imu_link 10"/>
 
     <!-- Robot pose publisher -->
-      <node pkg="robot_pose_publisher" name="robot_pose_publisher" type="robot_pose_publisher" output="log"/>
+    <node pkg="robot_pose_publisher" name="robot_pose_publisher" type="robot_pose_publisher" output="log"/>
     <!--Broadcast transformation from the map to bar link on what the camera is placed-->
-    <node pkg="tf" type="static_transform_publisher" name="bar_link_broadcaster" args="1.5 1.2 3.0 0 0 -0.70682518,  0.70738827 /map /bar_link 100" />
+    <node pkg="tf" type="static_transform_publisher" name="bar_link_broadcaster"
+          args="1.5 1.2 3.0 0 0 -0.70682518,  0.70738827 /map /bar_link 100"/>
 
     <!--
       Broadcasters:
@@ -91,14 +95,14 @@ args="-urdf -model tracked_robot -param robot_description">
                     dummy to odometry transformation
                     stair location in map frame
     -->
-    <node pkg="tracked_irl" type="ar_odometry.py" name="ar_odometry"  output="screen"/>
-    <node pkg="tracked_irl" type="dummy2odom.py" name="dummy2odom"  output="screen"/>
-    <node pkg="tracked_irl" type="ar_stair_location.py" name="ar_stair_location"  output="screen"/>
+    <node pkg="tracked_irl" type="ar_odometry.py" name="ar_odometry" output="screen"/>
+    <node pkg="tracked_irl" type="dummy2odom.py" name="dummy2odom" output="screen"/>
+    <node pkg="tracked_irl" type="ar_stair_location.py" name="ar_stair_location" output="screen"/>
 
     <!-- State publisers-->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
-      respawn="false" output="screen">
-      <remap from="/joint_states" to="/tracked_robot/joint_states" />
+          respawn="false" output="screen">
+        <remap from="/joint_states" to="/tracked_robot/joint_states"/>
     </node>
 
     <!-- Camera group -->
@@ -106,21 +110,22 @@ args="-urdf -model tracked_robot -param robot_description">
     <param name="robot_description_cam" command="xacro --inorder '$(find tracked_irl)/urdf/test.urdf.xacro'"/>
 
     <node name="urdf_spawner_camera" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-      args="-urdf -model camera -param robot_description_cam">
+          args="-urdf -model camera -param robot_description_cam">
     </node>
 
     <node name="camera_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
-      respawn="false" output="screen">
-            <remap from="robot_description" to="robot_description_cam" />
+          respawn="false" output="screen">
+        <remap from="robot_description" to="robot_description_cam"/>
     </node>
     <include file="$(find tracked_irl)/launch/ar_track_usbcam_sim.launch"/>
 
-  <!--Joystick control-->
-  <!-- Joystick control+-->
-  <!--<node pkg="joy" type="joy_node" name="joy_control" output="screen" />
-  -->
-  <node pkg="tracked_irl" type="simulation_joystick_control.py" name="joystick_control" output="screen" />
+    <!--Joystick control-->
+    <!-- Joystick control+-->
+    <!--<node pkg="joy" type="joy_node" name="joy_control" output="screen" />
+    <node pkg="rostopic" type="rostopic" name="rostopic" args="pub {pub args}"/>
 
+    <node pkg="tracked_irl" type="simulation_joystick_control.py" name="joystick_control" output="screen"/>
+    -->
 
 
 </launch>

@@ -1,0 +1,17 @@
+153,157c153,158
+<                 if abs(self.bars[bar_k].data + actions[bar_k]) <= self.MAX_ANGLE: 
+<                     self.bars[bar_k].data += actions[bar_k]
+<                 else:
+<                     sign = (self.bars[bar_k].data + actions[bar_k])/abs(self.bars[bar_k].data + actions[bar_k])
+<                     self.bars[bar_k].data = self.MAX_ANGLE * sign
+---
+>                 self.bars[bar_k].data = actions[bar_k]
+>                 #In case of Box actions; ATTENTION if discrete box actions, then pay attention to += 
+>                 # if abs(self.bars[bar_k].data + actions[bar_k]) < self.MAX_ANGLE:
+>                 #     self.bars[bar_k].data += actions[bar_k]
+>                 # else:
+>                 #     self.bars[bar_k].data = self.MAX_ANGLE * (self.bars[bar_k].data + actions[bar_k])/abs(self.bars[bar_k].data + actions[bar_k])
+169c170
+<             self.wheels[wheel_k].data = action # step_effort * action
+---
+>             self.wheels[wheel_k].data = step_effort * action

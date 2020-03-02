@@ -1,0 +1,32 @@
+{
+    "environment_1":
+	{
+      "H": "small",
+      "L": "small",
+      "B": "medium"
+    },
+    "environment_2":
+	{
+      "H": "medium",
+      "L": "medium",
+      "B": "medium"
+    },
+    "environment_3":
+	{
+      "H": "big",
+      "L": "big",
+      "B": "medium"
+    },
+    "environment_4":
+	{
+      "H": "medium",
+      "L": "medium",
+      "B": "small"
+    },
+    "environment_5":
+	{
+      "H": "medium",
+      "L": "medium",
+      "B": "big"
+    }
+}

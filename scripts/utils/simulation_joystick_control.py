@@ -4,7 +4,9 @@ import rospy
 from std_msgs.msg import String, Float64
 from sensor_msgs.msg import Joy
 import time
+from geometry_msgs.msg import Twist
 from std_srvs.srv import Empty, EmptyRequest
+
 
 class TeleopControl:
     def __init__(self):
@@ -18,7 +20,7 @@ class TeleopControl:
         self.regime = False
         self.allowed = True
         self.effort_right = 0.
-        self.action_pub = rospy.Publisher('/action_published', Float64, queue_size=10)
+        self.action_pub = rospy.Publisher('/action_published', Float64, queue_size=1)
         self.action_pub_msg = Float64()
         self.reset_gazebo = rospy.ServiceProxy('/gazebo/reset_world', Empty)
         self.bars = {
@@ -73,7 +75,7 @@ class TeleopControl:
         d = dict(self.wheels)
         d.update(self.bars)
         for k, v in d.items():
-            self.publishers[k] = rospy.Publisher(k, Float64, queue_size=10)
+            self.publishers[k] = rospy.Publisher(k, Float64, queue_size=1)
 
 
     def wrap(self,actions):
@@ -95,7 +97,7 @@ class TeleopControl:
                 'right_rear_bar_hinge', 'left_wheel_1_hinge', 'right_wheel_1_hinge'
         :return: None
         '''
-        print('Applying actions')
+
         # Transform list of actions to dict of actions
         actions = self.wrap(actions)
         step_angle = 0.2
@@ -165,9 +167,17 @@ class TeleopControl:
         self.effort_right = 0.
         self.reset_gazebo(EmptyRequest())
 
+    def autonomous_callback(self, vel):
+        left = vel.linear.x - vel.angular.z
+        right = vel.linear.x + vel.angular.z
+        print('left right', left, right )
+        actions = [0, 0, left, right]
+        self.apply_actions(actions)
+
 if __name__ == '__main__':
     tele = TeleopControl()
     rospy.init_node('Joystick_control', anonymous=True)
     rospy.Subscriber('/joy', Joy, tele.joy_callback, queue_size=1)
+    rospy.Subscriber('/cmd_vel', Twist, tele.autonomous_callback, queue_size=1)
     rospy.spin()
 

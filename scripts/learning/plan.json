@@ -1,0 +1,119 @@
+{
+    "experiment_baselines_1": {
+        "alg": "PPO2",
+        "reward_type": "classic",
+        "action_type": "box",
+        "action_num": "2",
+        "env_type": "step",
+        "sigma": "0.1",
+        "comment": "official_exp_small_noise",
+        "nesm" : "1",
+        "polygon": "0",
+        "discretize": "True",
+        "repeat": "3"
+    },
+    "experiment_baselines_2": {
+        "alg": "PPO2",
+        "reward_type": "classic",
+        "action_type": "box",
+        "action_num": "2",
+        "env_type": "step",
+        "sigma": "0.3",
+        "comment": "official_exp_medium_noise",
+        "nesm" : "0",
+        "polygon": "0",
+        "discretize": "True",
+        "repeat": "3"
+    },
+    "demonstration": {
+        "alg": "PPO2",
+        "reward_type": "classic",
+        "action_type": "box",
+        "action_num": "2",
+        "env_type": "step",
+        "sigma": "1.0",
+        "comment": "official_exps_demo",
+        "nesm" : "0",
+        "polygon": "0",
+        "discretize": "True",
+        "repeat": "3"
+    },
+        "experiment_base_lines_4": {
+        "alg": "PPO2",
+        "reward_type": "classic",
+        "action_type": "box",
+        "action_num": "2",
+        "env_type": "step",
+        "sigma": "0.05",
+        "comment": "debug_tests_reward",
+        "nesm" : "0",
+        "polygon": "0",
+        "discretize": "True",
+        "repeat": "1"
+    },
+        "experiment_basel_ines_5": {
+        "alg": "PPO2",
+        "reward_type": "classic",
+        "action_type": "box",
+        "action_num": "2",
+        "env_type": "step",
+        "sigma": "0.1",
+        "comment": "debug_tests_reward",
+        "nesm" : "0",
+        "polygon": "0",
+        "discretize": "True",
+        "repeat": "1"
+    },
+        "experiment_basel_ines_6": {
+        "alg": "PPO2",
+        "reward_type": "classic",
+        "action_type": "box",
+        "action_num": "2",
+        "env_type": "step",
+        "sigma": "0.2",
+        "comment": "debug_tests_reward",
+        "nesm" : "0",
+        "polygon": "0",
+        "discretize": "True",
+        "repeat": "1"
+    },
+    "experiment_base_lines_1":
+	{
+        "alg": "DQN",
+        "reward_type": "classic",
+        "action_type": "discrete_dqn",
+        "env_type": "step",
+        "action_num": "2",
+        "comment": "14_01_21_debug",
+        "nesm" : "0",
+        "polygon": "0",
+        "discretize": "True",
+        "repeat": "1"
+    },
+    "experiment_base_lines_3": {
+        "alg": "TD3",
+        "reward_type": "classic",
+        "action_type": "box",
+        "action_num": "2",
+        "env_type": "step",
+        "comment": "14_01_20",
+        "nesm" : "0",
+        "polygon": "0",
+        "discretize": "True",
+        "repeat": "3"
+    },
+    "experiment_gar_age_1":
+	{
+        "alg": "REPS",
+        "reward_type": "classic",
+        "action_type": "discrete_dqn",
+        "env_type": "step",
+        "action_num": "2",
+        "comment": "14_01_20",
+        "nesm" : "0",
+        "polygon": "0",
+        "discretize": "True",
+        "repeat": "5"
+    }
+}
+
