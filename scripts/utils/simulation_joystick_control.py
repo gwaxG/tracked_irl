@@ -6,11 +6,24 @@ from sensor_msgs.msg import Joy
 import time
 from geometry_msgs.msg import Twist
 from std_srvs.srv import Empty, EmptyRequest
-
+from std_srvs.srv import Empty, EmptyRequest
+from tracked_irl.msg import BaseMotorCmd, FlipMotorCmd
 
 class TeleopControl:
     def __init__(self):
         print('Base control instance created')
+        self.sim = bool(rospy.get_param("sim"))
+        self.pub_track_cmd = rospy.Publisher('/drrobot_jaguar_v6_basemotor_cmd', BaseMotorCmd, queue_size=1)
+        self.pub_flip_cmd = rospy.Publisher('/drrobot_jaguar_v6_flipmotor_cmd', FlipMotorCmd, queue_size=1)
+        self.pwm = 0.1
+        self.msg_tracks = BaseMotorCmd()
+        self.msg_flips = FlipMotorCmd()
+        self.state_flips = {
+            'leftFront': 0,
+            'rightFront': 0,
+            'leftRear': 0,
+            'rightRear': 0
+        }
         self.ready = False
         self.MAX_ANGLE = 1.1775
         self.ANGLE_STEP = 0.2
@@ -172,7 +185,26 @@ class TeleopControl:
         right = vel.linear.x + vel.angular.z
         print('left right', left, right )
         actions = [0, 0, left, right]
-        self.apply_actions(actions)
+        if self.sim:
+            self.apply_actions(actions)
+        else:
+            self.apply_actions_jaguar(actions)
+
+    def apply_actions_jaguar(self, actions):
+        MAX_PWM = 200
+        PWM = 125
+        left = actions[2]
+        right = actions[3]
+        max_ = max(abs(left), abs(right))
+        self.msg_tracks.leftCmd = PWM * left / max_
+        self.msg_tracks.rightCmd = PWM * right / max_
+        print('Applying actions to the jaguar',
+              self.msg_tracks.leftCmd,
+              self.msg_tracks.rightCmd
+        )
+        self.pub_track_cmd.publish(self.msg_tracks)
+
+
 
 if __name__ == '__main__':
     tele = TeleopControl()
@@ -181,3 +213,6 @@ if __name__ == '__main__':
     rospy.Subscriber('/cmd_vel', Twist, tele.autonomous_callback, queue_size=1)
     rospy.spin()
 
+'''
+rosrun tf static_transform_publisher 2 0.5 0 0 0 0 1 map go 100 
+'''

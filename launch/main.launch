@@ -2,6 +2,9 @@
 <launch>
     <!--Params -->
     <arg name="simulation" default="True"/>
+    <rosparam>
+        sim: 0
+    </rosparam>
 
     <!--Checking for simulation
 	if tf tree is broken then check for odom -> dummy transformation
