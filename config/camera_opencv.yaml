@@ -1,0 +1,34 @@
+opencv_storage:
+  calibrationDate: "jeu. 05 mars 2020 13:29:48 CET"
+  framesCount: 29
+  cameraResolution: 1920 1080
+  cameraMatrix:
+    type_id: opencv-matrix # Attribute
+    rows: 3
+    cols: 3
+    dt: d
+    data: 1.1841147728988324e+03 0. 9.3908121147297504e+02 0.
+    1.1841147728988324e+03 5.4101482598475422e+02 0. 0. 1.
+  cameraMatrix_std_dev:
+    type_id: opencv-matrix # Attribute
+    rows: 4
+    cols: 1
+    dt: d
+    data: 0. 7.1931691261499289e+00 1.4294405462487030e+00
+    1.6416665853258543e+00
+  dist_coeffs:
+    type_id: opencv-matrix # Attribute
+    rows: 1
+    cols: 5
+    dt: d
+    data: 1.2706378959635889e-01 -2.9913982133156963e-01 0. 0.
+    1.5577932619696183e-01
+  dist_coeffs_std_dev:
+    type_id: opencv-matrix # Attribute
+    rows: 5
+    cols: 1
+    dt: d
+    data: 5.3069481653747657e-03 1.6051561385364021e-02 0. 0.
+    1.6287433233996212e-02
+  avg_reprojection_error: 2.6370810098248010e-01
+

@@ -1,0 +1,10 @@
+Frames used for calibration: 30 	 RMS = 0.263708
+F = 1184.11 +- 14.0986
+Cx = 939.081 +- 2.8017 	Cy = 541.015 +- 3.21767
+K1 = 0.127064 +- 0.0104016
+K2 = -0.29914 +- 0.0314611
+K3 = 0.155779 +- 0.0319234
+1920 1080
+
+opencv_interactive-calibration -h=9 -w=7 --sz=.02 --t=chessboard
+
