@@ -1,6 +1,23 @@
 <?xml version="1.0"?>
 <launch>
 
+    <include file="$(find tracked_irl)/launch/usb_cam_node.launch"/>
+    <include file="$(find tracked_irl)/launch/ar_track_usbcam.launch"/>
+
+    <node pkg="tf" type="static_transform_publisher" name="map_marker2world"
+          args="1 1 0 0 0 0 ar_marker_0 map 10"/>
+
+    <node pkg="tf" type="static_transform_publisher" name="robot_marker2robot"
+          args="0.2 0 -0.085 0 0 0 ar_marker_1 base_link 10"/>
+
+    <node type="rviz" name="rviz" pkg="rviz"
+          args="-d $(find tracked_irl)/rviz/real_robot_config.rviz"/>
+
+    <node pkg="tracked_irl" type="ar_odometry.py"
+          name="ar_odometry" output="screen"/>
+    <node pkg="tracked_irl" type="dummy2odom.py"
+          name="dummy2odom" output="screen"/>
+
 </launch>
 
 
