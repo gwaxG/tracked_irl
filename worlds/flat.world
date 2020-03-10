@@ -89,15 +89,12 @@
       <cast_shadows>false</cast_shadows>
     </light>
 
-
     <model name="marker_1">
-      <pose>1.0 0.71 0.005  0 0 3.14</pose> <!--0.9 -> 0.675-->
-
+      <pose>2.0 0.71 0.005  0 0 3.14</pose> <!--0.9 -> 0.675-->
       <static>true</static>
       <link name="body">
         <visual name="visual">
           <geometry>
-            
             <mesh>
                 <!--<uri>file://worlds/meshes/marker_1.dae</uri>-->
                 <uri>model://markers/meshes/marker_1.dae</uri>

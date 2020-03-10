@@ -3,7 +3,7 @@
     <!--Params -->
     <arg name="simulation" default="True"/>
     <rosparam>
-        sim: 0
+        sim: 1
     </rosparam>
 
     <!--Checking for simulation
@@ -22,7 +22,6 @@
     <!--Joystick driver // used for real and simulated robot control-->
     <node pkg="joy" type="joy_node" name="joy_control" output="screen" />
 
-    <!-- SLAM -->
     <!-- Gmapping -->
     <node pkg="gmapping" type="slam_gmapping" name="gmapping_thing" output="screen" >
       <param name="odom_frame" value="/odom" />

@@ -25,10 +25,9 @@ class SimpleMove:
 
     def update_control_command(self, state):
         dist = self.get_distance(state)
-        self.robot_state = state
         print('Distance', dist)
+        self.robot_state = state
         self.clearance = False if dist < 0.3 else True
-
         if self.clearance == False:
             print('Time to stop')
             self.vel_cmd.angular.z = 0
@@ -51,6 +50,8 @@ class SimpleMove:
         :return: distance from the robot to the goal B
         '''
         (trans, rot) = self.listener.lookupTransform('/map', '/goal', rospy.Time(0))
+        print("Robot state", state.pose.pose.position)
+        print("Goal in the map frame", trans)
         self.goal = trans
         x = trans[0] - state.pose.pose.position.x
         y = trans[1] - state.pose.pose.position.y

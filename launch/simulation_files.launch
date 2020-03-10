@@ -7,7 +7,7 @@
     <arg name="headless" default="false"/>
     <arg name="debug" default="false"/>
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
-        <arg name="world_name" value="$(find tracked_irl)/worlds/crawler_robot_surface.world"/>
+        <arg name="world_name" value="$(find tracked_irl)/worlds/flat.world"/>
         <!--<arg name="world_name" value="$(find tracked_irl)/worlds/crawler_robot.world"/>-->
         <arg name="debug" value="$(arg debug)"/>
         <arg name="gui" value="$(arg gui)"/>
@@ -83,9 +83,10 @@
 
     <!-- Robot pose publisher -->
     <node pkg="robot_pose_publisher" name="robot_pose_publisher" type="robot_pose_publisher" output="log"/>
-    <!--Broadcast transformation from the map to bar link on what the camera is placed-->
+
+    <!--Broadcast transformation from the map to bar link on what the camera is placed
     <node pkg="tf" type="static_transform_publisher" name="bar_link_broadcaster"
-          args="1.5 1.2 3.0 0 0 -0.70682518,  0.70738827 /map /bar_link 100"/>
+          args="1.5 1.2 3.0 0 0 -0.70682518  0.70738827 /map /bar_link 100"/>-->
 
     <!--
       Broadcasters:
@@ -119,11 +120,12 @@
 
     <!--Joystick control-->
     <!-- Joystick control+-->
-    <!--<node pkg="joy" type="joy_node" name="joy_control" output="screen" />
-    <node pkg="rostopic" type="rostopic" name="rostopic" args="pub {pub args}"/>
+    <!-- <node pkg="rostopic" type="rostopic" name="rostopic" args="pub {pub args}"/>
+    <node pkg="joy" type="joy_node" name="joy_control" output="screen" />-->
+
 
     <node pkg="tracked_irl" type="simulation_joystick_control.py" name="joystick_control" output="screen"/>
-    -->
+
 
 
 </launch>
