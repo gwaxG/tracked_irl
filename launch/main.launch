@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <launch>
     <!--Params -->
-    <arg name="simulation" default="True"/>
+    <arg name="simulation" default="False"/>
     <rosparam>
-        sim: 1
+        sim: 0
     </rosparam>
 
     <!--Checking for simulation

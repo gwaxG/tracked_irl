@@ -4,8 +4,8 @@
     <include file="$(find tracked_irl)/launch/usb_cam_node.launch"/>
     <include file="$(find tracked_irl)/launch/ar_track_usbcam.launch"/>
 
-    <node pkg="tf" type="static_transform_publisher" name="map_marker2world"
-          args="1 1 0 0 0 0 ar_marker_1 map 10"/>
+    <!-- <node pkg="tf" type="static_transform_publisher" name="map_marker2world"
+          args="1 1 0 0 0 0 ar_marker_1 map 10"/> -->
 
     <node pkg="tf" type="static_transform_publisher" name="robot_marker2robot"
           args="0.2 0 -0.085 0 0 0 ar_marker_0 base_link 10"/>
@@ -15,8 +15,8 @@
 
     <node pkg="tracked_irl" type="ar_odometry.py"
           name="ar_odometry" output="screen"/>
-    <!-- <node pkg="tracked_irl" type="dummy2odom.py"
-          name="dummy2odom" output="screen"/> -->
+     <node pkg="tracked_irl" type="init_odom.py"
+          name="init_odom" output="screen"/>
 
 </launch>
 

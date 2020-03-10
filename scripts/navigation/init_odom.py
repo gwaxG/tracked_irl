@@ -10,9 +10,9 @@ It is not implemented.
 '''
 
 
-class Cam2Map:
+class InitOdom:
     def __init__(self):
-        rospy.init_node('camera2map_broadcaster')
+        rospy.init_node('init_odom_broadcaster')
         self.listener = tf.TransformListener()
         self.br = tf.TransformBroadcaster()
 
@@ -20,11 +20,8 @@ class Cam2Map:
         RATE = 10.0 # Hz
         while not rospy.is_shutdown():
             try:
-                (trans, rot) = self.listener.lookupTransform('/camera_link', '/ar_marker_1', rospy.Time(0))
-                (trans_, rot_) = self.listener.lookupTransform('/base_link', '/ar_marker_0', rospy.Time(0))
-                print('cam m1', trans)
-                print('base m0', trans_)
-                # self.br.sendTransform(trans, rot, rospy.Time.now(), "stair", "map")
+                (trans, rot) = self.listener.lookupTransform('/ar_marker_1', '/ar_marker_0', rospy.Time(0))
+                self.br.sendTransform(trans, rot, rospy.Time.now(), "map", "ar_marker_1")
                 time.sleep(1/RATE)
             except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
                 time.sleep(1/RATE)
@@ -32,4 +29,4 @@ class Cam2Map:
 
 
 if __name__ == '__main__':
-    Cam2Map().run()
+    InitOdom().run()
