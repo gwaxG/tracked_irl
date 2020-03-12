@@ -4,32 +4,33 @@
 
     <!-- Spawn world -->
     <arg name="paused" default="False"/>
-    <arg name="use_sim_time" default="true"/>
+    <arg name="use_sim_time" default="false"/>
     <arg name="gui" default="false"/>
     <arg name="headless" default="false"/>
     <arg name="debug" default="false"/>
-    <!-- Robot's URDF -->
-    <param name="robot_description" command="xacro --inorder '$(find tracked_irl)/urdf/tracked_robot_dae.urdf.xacro'"/>
-    <!--   Run a python script to send a service call to gazebo_ros to spawn a URDF robot -->
+    <!-- Robot's URDF
+    <param name="robot_description" command="xacro -    -inorder '$(find tracked_irl)/urdf/tracked_robot_dae.urdf.xacro'"/>-->
+    <!--   Run a python script to send a service call to gazebo_ros to spawn a URDF robot
 
-
+    -->
     <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="0 0 0 0 0 0 1 /world /map 100"/>
+
 
     <node pkg="tf" type="static_transform_publisher" name="imu_to_base" args="0 0 0 0 0 0 base_link base_imu_link 10"/>
 
-    <!-- Robot pose publisher -->
-    <node pkg="robot_pose_publisher" name="robot_pose_publisher" type="robot_pose_publisher" output="log"/>
+    <!-- Robot pose publisher
+    <node pkg="robot_pose_publisher" name="robot_pose_publisher" type="robot_pose_publisher" output="log"/>-->
 
 
-    <node pkg="tracked_irl" type="ar_odometry.py" name="ar_odometry" output="screen"/>
+    <!--<node pkg="tracked_irl" type="ar_odometry.py" name="ar_odometry" output="screen"/>
     <node pkg="tracked_irl" type="dummy2odom.py" name="dummy2odom" output="screen"/>
-    <node pkg="tracked_irl" type="ar_stair_location.py" name="ar_stair_location" output="screen"/>
+    <node pkg="tracked_irl" type="ar_stair_location.py" name="ar_stair_location" output="screen"/>-->
 
-    <!-- State publisers-->
+    <!-- State publisers
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
           respawn="false" output="screen">
         <remap from="/joint_states" to="/tracked_robot/joint_states"/>
-    </node>
+    </node>-->
 
 
 
@@ -47,6 +48,12 @@
     <include file="$(find tracked_irl)/launch/ar_track_usbcam.launch"/>
 
 
+    <node pkg="tracked_irl" type="static_tf_publishers.py"
+      name="static_tf_publishers" output="screen"/>
+
+    <node pkg="tracked_irl" type="ar_odometry.py"
+      name="ar_odometry" output="screen"/>
+
     <!--
     <include file="$(find tracked_irl)/launch/usb_cam_node.launch"/>
     <include file="$(find tracked_irl)/launch/ar_track_usbcam.launch"/>
@@ -62,7 +69,7 @@ args="-d $(find tracked_irl)/rviz/real_robot_config.rviz"/>
 
     <node pkg="tracked_irl" type="ar_odometry.py"
           name="ar_odometry" output="screen"/>
-     <node pkg="tracked_irl" type="init_odom.py"
+     <node pkg="tracked_irl" type="static_tf_publishers.py"
           name="init_odom" output="screen"/> -->
 
 </launch>
