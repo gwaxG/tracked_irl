@@ -40,7 +40,7 @@
     <node pkg="joy" type="joy_node" name="joy_control" output="screen" />-->
 
 
-    <node pkg="tracked_irl" type="simulation_joystick_control.py" name="joystick_control" output="screen"/>
+    <!--<node pkg="tracked_irl" type="simulation_joystick_control.py" name="joystick_control" output="screen"/>-->
 
 
 

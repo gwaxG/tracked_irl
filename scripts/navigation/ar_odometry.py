@@ -22,7 +22,7 @@ class AROdom:
         RATE = 10.0 # Hz
         while not rospy.is_shutdown():
             try:
-                (trans, rot) = self.listener.lookupTransform('/map', '/ar_marker_0', rospy.Time(0))
+                (trans, rot) = self.listener.lookupTransform('/map', '/base_link', rospy.Time(0))
                 self.odom.pose.pose.position.x = trans[0]
                 self.odom.pose.pose.position.y = trans[1]
                 self.odom.pose.pose.position.z = trans[2]

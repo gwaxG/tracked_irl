@@ -7,7 +7,6 @@ Panels:
         - /Global Options1
         - /Status1
         - /Grid1
-        - /Map1
       Splitter Ratio: 0.5
     Tree Height: 775
   - Class: rviz/Selection
@@ -78,13 +77,19 @@ Visualization Manager:
           Value: true
         ar_marker_1:
           Value: true
+        base_imu_link:
+          Value: true
         base_link:
+          Value: true
+        goal:
           Value: true
         map:
           Value: true
         odom:
           Value: true
         usb_cam:
+          Value: true
+        world:
           Value: true
       Marker Scale: 1
       Name: TF
@@ -94,12 +99,16 @@ Visualization Manager:
       Tree:
         usb_cam:
           ar_marker_0:
-            map:
-              odom:
+            base_link:
+              base_imu_link:
                 {}
           ar_marker_1:
-            base_link:
-              {}
+            world:
+              map:
+                goal:
+                  {}
+                odom:
+                  {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -127,25 +136,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 6.22982311
+      Distance: 5.80972481
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.120338656
-        Y: 0.392267466
-        Z: 0.734348416
+        X: -0.116207376
+        Y: 0.735628426
+        Z: 0.815080345
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.555398405
+      Pitch: 1.56479633
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.485409498
+      Yaw: 4.73540688
     Saved: ~
 Window Geometry:
   Displays:

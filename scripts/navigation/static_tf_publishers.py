@@ -41,7 +41,7 @@ class InitOdom:
                                   "/ar_marker_1"
                                   )
 
-            self.br.sendTransform([0.2, 0, 0.078],
+            self.br.sendTransform([-0.35, 0, -0.33],
                                   [0, 0, 0, 1],
                                   rospy.Time.now(),
                                   "/base_link",
@@ -51,6 +51,6 @@ class InitOdom:
 if __name__ == '__main__':
     InitOdom().run()
 '''
-rosrun tf static_transform_publisher 1.0 1.0 0.0 0.0 0.0 0.0 1.0 goal map 1000
+rosrun tf static_transform_publisher 1.0 1.0 0.0 0.0 0.0 0.0 1.0 map goal 1000
 '''
 

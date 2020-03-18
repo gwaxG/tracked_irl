@@ -183,7 +183,7 @@ class TeleopControl:
     def autonomous_callback(self, vel):
         left = vel.linear.x - vel.angular.z
         right = vel.linear.x + vel.angular.z
-        print('left right', left, right )
+        print('left {} right {}'.format(left, right))
         actions = [0, 0, left, right]
         if self.sim:
             self.apply_actions(actions)
@@ -191,19 +191,29 @@ class TeleopControl:
             self.apply_actions_jaguar(actions)
 
     def apply_actions_jaguar(self, actions):
-        MAX_PWM = 200
-        PWM = 125
+        '''
+        remember that the left main track velocity command has to be inverted.
+        Thus, to move forward it is necessary to set -300, 300 units for left and right tracks
+        :param actions: list of actions [front_bars, rear_bars, left, right]
+        :return:
+        '''
+        PWM = 300
         left = actions[2]
         right = actions[3]
         max_ = max(abs(left), abs(right))
-        self.msg_tracks.leftCmd = PWM * left / max_
-        self.msg_tracks.rightCmd = PWM * right / max_
-        print('Applying actions to the jaguar',
-              self.msg_tracks.leftCmd,
-              self.msg_tracks.rightCmd
-        )
+        if max_ == 0:
+            self.msg_tracks.leftCmd = 0.0
+            self.msg_tracks.rightCmd = 0.0
+        else:
+            self.msg_tracks.leftCmd = -PWM * left / max_
+            self.msg_tracks.rightCmd = PWM * right / max_
+        print('Applying actions to the jaguar left: {}, right: {} \n'.format(
+            self.msg_tracks.leftCmd,
+            self.msg_tracks.rightCmd
+            ))
+        #decision = raw_input("Should I apply these actions (y/n)?")
+        # if decision == 'y':
         self.pub_track_cmd.publish(self.msg_tracks)
-
 
 
 if __name__ == '__main__':
